@@ -1,7 +1,7 @@
 # For The Win (FTW) Agent implementation.
 
 **[Overview](#overview)** | **[Installation](#installation)** |
-**[Documentation](https://ftw.readthedocs.io/en/0.1.8/)** | **[Examples](examples)**
+**[Documentation](https://ftw.readthedocs.io/)** | **[Examples](examples)**
 
 This repository has the following goals:
     
@@ -40,7 +40,7 @@ This repository offers the following:
 - Agent, Actor & Learner classes for the FTW agent
 
 - Support for multi-agent environments (under certain constraints, see 
-[Documentation](https://ftw.readthedocs.io/en/0.1.8/))
+[Documentation](https://ftw.readthedocs.io/))
 
 - Hyperparameter and Internal Rewards classes for population-based training.
 
@@ -99,7 +99,7 @@ That's it. You're all set!
 
 ## Documentation
 For more specific information, please visit the 
-[Documentation](https://ftw.readthedocs.io/en/0.1.8/).
+[Documentation](https://ftw.readthedocs.io).
 
 ## Examples
 Further examples can be found [here](ftw/examples).
