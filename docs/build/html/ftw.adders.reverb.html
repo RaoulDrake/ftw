@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reverb Adders - Reverb submodule &mdash; ftw 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ftw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html#contact">Contact</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.networks.html">TensorFlow Modules &amp; Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html">For The Win (FTW) TensorFlow Agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html#module-ftw.agents.tf.ftw.utils">Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.adders.html">Reverb Adders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.datasets.html">Reverb Replay Datasets for TensorFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.hyperparameters.html">Hyperparameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.internal_reward.html">Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.wrappers.html">Environment Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ftw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Reverb Adders - Reverb submodule</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ftw.adders.reverb.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="reverb-adders-reverb-submodule">
+<h1>Reverb Adders - Reverb submodule<a class="headerlink" href="#reverb-adders-reverb-submodule" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sequence-adder">
+<h2><code class="docutils literal notranslate"><span class="pre">Sequence</span> <span class="pre">Adder</span></code><a class="headerlink" href="#sequence-adder" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.adders.reverb.SequenceAdder">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.</code><code class="sig-name descname">SequenceAdder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.SequenceAdder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.adders.reverb.base.ReverbAdder</span></code></p>
+<p>An adder which adds sequences of fixed length.</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.SequenceAdder.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.SequenceAdder.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the adder’s buffer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="submodules">
+<h3>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="module-ftw.adders.reverb.multi_sequence">
+<span id="ftw-adders-reverb-multi-sequence-module"></span><h3>ftw.adders.reverb.multi_sequence module<a class="headerlink" href="#module-ftw.adders.reverb.multi_sequence" title="Permalink to this headline">¶</a></h3>
+<p>Sequence adders.</p>
+<p>This implements adders which add multiple sequences.</p>
+<dl class="py class">
+<dt id="ftw.adders.reverb.multi_sequence.MultiSequenceAdder">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.multi_sequence.</code><code class="sig-name descname">MultiSequenceAdder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_lengths</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">periods</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">should_insert_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>acme.adders.reverb.base.PriorityFnInput<span class="p">, </span>bool<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence.MultiSequenceAdder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.adders.reverb.base.ReverbAdder</span></code></p>
+<p>An adder which adds multiple sequences of fixed lengths.</p>
+<dl class="simple">
+<dt>This class is based on acme.adders.reverb.SequenceAdder, with the following enhancements:</dt><dd><ul class="simple">
+<li><p>supports multiple sequences, for which the
+sequence lengths and periods may differ for each sequence.</p></li>
+<li><p>supports conditional inserting of sequences,
+via the should_insert_fns argument of the constructor.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Furthermore, this class implements a similar bugfix (related to padding) as ftw.adders.reverb.SequenceAdder.</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence.MultiSequenceAdder.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence.MultiSequenceAdder.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the adder’s buffer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ftw.adders.reverb.multi_sequence_test">
+<span id="ftw-adders-reverb-multi-sequence-test-module"></span><h3>ftw.adders.reverb.multi_sequence_test module<a class="headerlink" href="#module-ftw.adders.reverb.multi_sequence_test" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.multi_sequence_test.</code><code class="sig-name descname">MultiSequenceAdderTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ftw.adders.reverb.test_utils.AdderTestMixin" title="ftw.adders.reverb.test_utils.AdderTestMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ftw.adders.reverb.test_utils.AdderTestMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">absl.testing.parameterized.TestCase</span></code></p>
+<dl class="py attribute">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.client">
+<code class="sig-name descname">client</code><em class="property">: <a class="reference internal" href="#ftw.adders.reverb.test_utils.FakeClient" title="ftw.adders.reverb.test_utils.FakeClient">ftw.adders.reverb.test_utils.FakeClient</a></em><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.run_test_adder">
+<code class="sig-name descname">run_test_adder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">adder</span><span class="p">:</span> <span class="n">acme.adders.reverb.base.ReverbAdder</span></em>, <em class="sig-param"><span class="n">first</span><span class="p">:</span> <span class="n">dm_env._environment.TimeStep</span></em>, <em class="sig-param"><span class="n">steps</span><span class="p">:</span> <span class="n">Sequence<span class="p">[</span>Tuple<span class="p">[</span>Any<span class="p">, </span>dm_env._environment.TimeStep<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">expected_items</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>Sequence<span class="p">[</span>Any<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.run_test_adder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a unit test case for the adder.</p>
+<dl>
+<dt>Args:</dt><dd><p>adder: The instance of <cite>base.ReverbAdder</cite> that is being tested.
+first: The first <cite>dm_env.TimeStep</cite> that is used to call</p>
+<blockquote>
+<div><p><cite>base.ReverbAdder.add_first()</cite>.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>steps: A sequence of (action, timestep) tuples that are passed to</dt><dd><p><cite>base.ReverbAdder.add()</cite>.</p>
+</dd>
+<dt>expected_items: The sequence of items that are expected to be created</dt><dd><p>by calling the adder’s <cite>add_first()</cite> method on <cite>first</cite> and <cite>add()</cite> on
+all of the elements in <cite>steps</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_multi_sequence_MixedSeqLenPeriodsNoPaddingTest">
+<code class="sig-name descname">test_adder_multi_sequence_MixedSeqLenPeriodsNoPaddingTest</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'buffer_one': 3, 'buffer_two': 4}, periods={'buffer_one': 2, 'buffer_two': 1}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=0.0, discount=1.0, observation=5)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=-7.0, discount=1.0, observation=6)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=0.0, discount=1.0, observation=7)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=-9.0, discount=0.0, observation=8))), expected_sequences={'buffer_one': ([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ())], [(5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ())]), 'buffer_two': ([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ())], [(2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ())], [(4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ())], [(5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ()), (8, 0, 0.0, 0.0, False, ())])}, priority_fns={'buffer_one': &lt;function &lt;lambda&gt; at 0x7f4187bc0a60&gt;, 'buffer_two': &lt;function &lt;lambda&gt; at 0x7f4187bc0ae8&gt;}, should_insert_fns={'buffer_one': &lt;function &lt;lambda&gt; at 0x7f4187bc0b70&gt;, 'buffer_two': &lt;function &lt;lambda&gt; at 0x7f4187bc0bf8&gt;}, pad_end_of_episode=False</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_multi_sequence_MixedSeqLenPeriodsNoPaddingTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_multi_sequence_MixedSeqLenPeriodsTest">
+<code class="sig-name descname">test_adder_multi_sequence_MixedSeqLenPeriodsTest</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'buffer_one': 3, 'buffer_two': 4}, periods={'buffer_one': 2, 'buffer_two': 1}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=0.0, discount=1.0, observation=5)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=-7.0, discount=1.0, observation=6)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=0.0, discount=1.0, observation=7)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=-9.0, discount=0.0, observation=8))), expected_sequences={'buffer_one': ([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ())], [(5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ())], [(7, 0, -9.0, 0.0, False, ()), (8, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())]), 'buffer_two': ([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ())], [(2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ())], [(4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ())], [(5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ()), (8, 0, 0.0, 0.0, False, ())])}, priority_fns={'buffer_one': &lt;function &lt;lambda&gt; at 0x7f4187bc0840&gt;, 'buffer_two': &lt;function &lt;lambda&gt; at 0x7f4187bc08c8&gt;}, should_insert_fns={'buffer_one': &lt;function &lt;lambda&gt; at 0x7f4187bc0950&gt;, 'buffer_two': &lt;function &lt;lambda&gt; at 0x7f4187bc09d8&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_multi_sequence_MixedSeqLenPeriodsTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_multi_sequence_RewardPredictionTest">
+<code class="sig-name descname">test_adder_multi_sequence_RewardPredictionTest</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'nonzero_reward_buffer': 3, 'zero_reward_buffer': 3}, periods={'nonzero_reward_buffer': 1, 'zero_reward_buffer': 1}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=0.0, discount=1.0, observation=5)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=-7.0, discount=1.0, observation=6)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=0.0, discount=1.0, observation=7)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=-9.0, discount=0.0, observation=8))), expected_sequences={'nonzero_reward_buffer': ([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ())], [(5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ())]), 'zero_reward_buffer': ([(2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 0.0, 1.0, False, ())], [(4, 0, 0.0, 1.0, False, ()), (5, 0, -7.0, 1.0, False, ()), (6, 0, 0.0, 1.0, False, ())], [(6, 0, 0.0, 1.0, False, ()), (7, 0, -9.0, 0.0, False, ()), (8, 0, 0.0, 0.0, False, ())])}, priority_fns={'nonzero_reward_buffer': &lt;function &lt;lambda&gt; at 0x7f4187bc0620&gt;, 'zero_reward_buffer': &lt;function &lt;lambda&gt; at 0x7f4187bc06a8&gt;}, should_insert_fns={'nonzero_reward_buffer': &lt;function &lt;lambda&gt; at 0x7f4187bc0730&gt;, 'zero_reward_buffer': &lt;function &lt;lambda&gt; at 0x7f4187bc07b8&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_multi_sequence_RewardPredictionTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationNoPadding">
+<code class="sig-name descname">test_adder_sequence_SequenceEarlyTerminationNoPadding</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 4}</em>, <em class="sig-param">periods={'priority_table': 1}</em>, <em class="sig-param">first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;</em>, <em class="sig-param">reward=None</em>, <em class="sig-param">discount=None</em>, <em class="sig-param">observation=1)</em>, <em class="sig-param">steps=((0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.MID: 1&gt;</em>, <em class="sig-param">reward=2.0</em>, <em class="sig-param">discount=1.0</em>, <em class="sig-param">observation=2))</em>, <em class="sig-param">(0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.LAST: 2&gt;</em>, <em class="sig-param">reward=3.0</em>, <em class="sig-param">discount=0.0</em>, <em class="sig-param">observation=3)))</em>, <em class="sig-param">expected_sequences=()</em>, <em class="sig-param">priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0510&gt;}</em>, <em class="sig-param">should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0598&gt;}</em>, <em class="sig-param">pad_end_of_episode=False</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationNoPadding" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPaddingPeriodOne">
+<code class="sig-name descname">test_adder_sequence_SequenceEarlyTerminationPaddingPeriodOne</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 4}, periods={'priority_table': 1}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())],), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc02f0&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0378&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPaddingPeriodOne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPaddingPeriodTwo">
+<code class="sig-name descname">test_adder_sequence_SequenceEarlyTerminationPaddingPeriodTwo</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 4}, periods={'priority_table': 2}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())],), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0400&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0488&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPaddingPeriodTwo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPeriodOne">
+<code class="sig-name descname">test_adder_sequence_SequenceEarlyTerminationPeriodOne</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 3}, periods={'priority_table': 1}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ())],), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc00d0&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0158&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPeriodOne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPeriodTwo">
+<code class="sig-name descname">test_adder_sequence_SequenceEarlyTerminationPeriodTwo</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 3}, periods={'priority_table': 2}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ())],), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc01e0&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0268&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequenceEarlyTerminationPeriodTwo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePaddingPeriodThree">
+<code class="sig-name descname">test_adder_sequence_SequencePaddingPeriodThree</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 4}, periods={'priority_table': 3}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=7.0, discount=1.0, observation=5)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=9.0, discount=1.0, observation=6)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=11.0, discount=1.0, observation=7)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=13.0, discount=0.0, observation=8))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 1.0, False, ())], [(4, 0, 7.0, 1.0, False, ()), (5, 0, 9.0, 1.0, False, ()), (6, 0, 11.0, 1.0, False, ()), (7, 0, 13.0, 0.0, False, ())], [(7, 0, 13.0, 0.0, False, ()), (8, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())]), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187da0f28&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187bc0048&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePaddingPeriodThree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePaddingPeriodTwo">
+<code class="sig-name descname">test_adder_sequence_SequencePaddingPeriodTwo</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 4}, periods={'priority_table': 2}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=7.0, discount=0.0, observation=5))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ()), (5, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())]), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187da0e18&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187da0ea0&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePaddingPeriodTwo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePeriodOne">
+<code class="sig-name descname">test_adder_sequence_SequencePeriodOne</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 3}, periods={'priority_table': 1}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=7.0, discount=0.0, observation=5))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())], [(2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ()), (5, 0, 0.0, 0.0, False, ())]), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187e8c9d8&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187da0510&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePeriodOne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePeriodTwo">
+<code class="sig-name descname">test_adder_sequence_SequencePeriodTwo</code><span class="sig-paren">(</span><em class="sig-param">sequence_lengths={'priority_table': 3}, periods={'priority_table': 2}, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=7.0, discount=0.0, observation=5))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ()), (5, 0, 0.0, 0.0, False, ())]), priority_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187da0bf8&gt;}, should_insert_fns={'priority_table': &lt;function &lt;lambda&gt; at 0x7f4187da0d90&gt;}</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.multi_sequence_test.MultiSequenceAdderTest.test_adder_sequence_SequencePeriodTwo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ftw.adders.reverb.rnn_sequence">
+<span id="ftw-adders-reverb-rnn-sequence-module"></span><h3>ftw.adders.reverb.rnn_sequence module<a class="headerlink" href="#module-ftw.adders.reverb.rnn_sequence" title="Permalink to this headline">¶</a></h3>
+<p>Sequence adders.</p>
+<p>This implements adders which add sequences or partial trajectories.</p>
+<dl class="py class">
+<dt id="ftw.adders.reverb.rnn_sequence.NonOverlappingRNNSequenceAdder">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.rnn_sequence.</code><code class="sig-name descname">NonOverlappingRNNSequenceAdder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.rnn_sequence.NonOverlappingRNNSequenceAdder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.adders.reverb.base.ReverbAdder</span></code></p>
+<p>An adder which adds non-overlapping sequences of fixed length.</p>
+<p>This adder is based on acme.adders.reverb.SequenceAdder, with the following modification:
+Enables adding sequences, where only the first recurrent core_state of the sequence is included.
+This saves RAM and can be used for any recurrent agent that is trained on unrolled sequences,
+if no overlapping of sequences is required.</p>
+<p>Must be used in combination with ftw.datasets.make_reverb_rnn_sequence_fifo_sampler_dataset().</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.rnn_sequence.NonOverlappingRNNSequenceAdder.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.rnn_sequence.NonOverlappingRNNSequenceAdder.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the adder’s buffer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ftw.adders.reverb.rnn_sequence_test">
+<span id="ftw-adders-reverb-rnn-sequence-test-module"></span><h3>ftw.adders.reverb.rnn_sequence_test module<a class="headerlink" href="#module-ftw.adders.reverb.rnn_sequence_test" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.rnn_sequence_test.</code><code class="sig-name descname">RNNSequenceAdderTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ftw.adders.reverb.test_utils.AdderTestMixin" title="ftw.adders.reverb.test_utils.AdderTestMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ftw.adders.reverb.test_utils.AdderTestMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">absl.testing.parameterized.TestCase</span></code></p>
+<dl class="py attribute">
+<dt id="ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest.client">
+<code class="sig-name descname">client</code><em class="property">: <a class="reference internal" href="#ftw.adders.reverb.test_utils.FakeClient" title="ftw.adders.reverb.test_utils.FakeClient">ftw.adders.reverb.test_utils.FakeClient</a></em><a class="headerlink" href="#ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest.run_test_adder">
+<code class="sig-name descname">run_test_adder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">adder</span><span class="p">:</span> <span class="n">acme.adders.reverb.base.ReverbAdder</span></em>, <em class="sig-param"><span class="n">first</span><span class="p">:</span> <span class="n">dm_env._environment.TimeStep</span></em>, <em class="sig-param"><span class="n">steps</span><span class="p">:</span> <span class="n">Sequence<span class="p">[</span>Tuple<span class="p">[</span>Any<span class="p">, </span>dm_env._environment.TimeStep<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">expected_items</span><span class="p">:</span> <span class="n">Sequence<span class="p">[</span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest.run_test_adder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a unit test case for the adder.</p>
+<dl>
+<dt>Args:</dt><dd><p>adder: The instance of <cite>base.ReverbAdder</cite> that is being tested.
+first: The first <cite>dm_env.TimeStep</cite> that is used to call</p>
+<blockquote>
+<div><p><cite>base.ReverbAdder.add_first()</cite>.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>steps: A sequence of (action, timestep) tuples that are passed to</dt><dd><p><cite>base.ReverbAdder.add()</cite>.</p>
+</dd>
+<dt>expected_items: The sequence of items that are expected to be created</dt><dd><p>by calling the adder’s <cite>add_first()</cite> method on <cite>first</cite> and <cite>add()</cite> on
+all of the elements in <cite>steps</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest.test_adder_MinimalTest">
+<code class="sig-name descname">test_adder_MinimalTest</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=5</em>, <em class="sig-param">first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;</em>, <em class="sig-param">reward=None</em>, <em class="sig-param">discount=None</em>, <em class="sig-param">observation=1)</em>, <em class="sig-param">steps=((0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.MID: 1&gt;</em>, <em class="sig-param">reward=2.0</em>, <em class="sig-param">discount=1.0</em>, <em class="sig-param">observation=2)</em>, <em class="sig-param">{'core_state': 99})</em>, <em class="sig-param">(0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.MID: 1&gt;</em>, <em class="sig-param">reward=3.0</em>, <em class="sig-param">discount=1.0</em>, <em class="sig-param">observation=3)</em>, <em class="sig-param">{'core_state': 1})</em>, <em class="sig-param">(0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.MID: 1&gt;</em>, <em class="sig-param">reward=5.0</em>, <em class="sig-param">discount=1.0</em>, <em class="sig-param">observation=4)</em>, <em class="sig-param">{'core_state': 2})</em>, <em class="sig-param">(0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.LAST: 2&gt;</em>, <em class="sig-param">reward=7.0</em>, <em class="sig-param">discount=0.0</em>, <em class="sig-param">observation=5)</em>, <em class="sig-param">{'core_state': 3}))</em>, <em class="sig-param">expected_sequences=(Step(observation=array([1</em>, <em class="sig-param">2</em>, <em class="sig-param">3</em>, <em class="sig-param">4</em>, <em class="sig-param">5])</em>, <em class="sig-param">action=array([0</em>, <em class="sig-param">0</em>, <em class="sig-param">0</em>, <em class="sig-param">0</em>, <em class="sig-param">0])</em>, <em class="sig-param">reward=array([2.</em>, <em class="sig-param">3.</em>, <em class="sig-param">5.</em>, <em class="sig-param">7.</em>, <em class="sig-param">0.])</em>, <em class="sig-param">discount=array([1.</em>, <em class="sig-param">1.</em>, <em class="sig-param">1.</em>, <em class="sig-param">0.</em>, <em class="sig-param">0.])</em>, <em class="sig-param">start_of_episode=array([ True</em>, <em class="sig-param">False</em>, <em class="sig-param">False</em>, <em class="sig-param">False</em>, <em class="sig-param">False])</em>, <em class="sig-param">extras={'core_state': array([99])})</em>, <em class="sig-param">)</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.rnn_sequence_test.RNNSequenceAdderTest.test_adder_MinimalTest" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ftw.adders.reverb.sequence">
+<span id="ftw-adders-reverb-sequence-module"></span><h3>ftw.adders.reverb.sequence module<a class="headerlink" href="#module-ftw.adders.reverb.sequence" title="Permalink to this headline">¶</a></h3>
+<p>Sequence adders.</p>
+<p>This implements adders which add sequences or partial trajectories.
+This module is almost identical to the original acme.adders.reverb.sequence.py, with one bugfix:
+In the original module, sequences were never padded because the calculation of how many steps need to be padded
+did not work as expected: with an increasing step, the result of this calculation in the original would eventually
+become negative, with the result that padding never happens.
+This edit of the module fixes this bug and always pads with zeros, if enabled.
+The Bugfix can be found in lines 109-117.</p>
+<dl class="py class">
+<dt id="ftw.adders.reverb.sequence.SequenceAdder">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.sequence.</code><code class="sig-name descname">SequenceAdder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence.SequenceAdder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.adders.reverb.base.ReverbAdder</span></code></p>
+<p>An adder which adds sequences of fixed length.</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence.SequenceAdder.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence.SequenceAdder.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the adder’s buffer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ftw.adders.reverb.sequence_test">
+<span id="ftw-adders-reverb-sequence-test-module"></span><h3>ftw.adders.reverb.sequence_test module<a class="headerlink" href="#module-ftw.adders.reverb.sequence_test" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.sequence_test.</code><code class="sig-name descname">SequenceAdderTest</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ftw.adders.reverb.test_utils.AdderTestMixin" title="ftw.adders.reverb.test_utils.AdderTestMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">ftw.adders.reverb.test_utils.AdderTestMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">absl.testing.parameterized.TestCase</span></code></p>
+<dl class="py attribute">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.client">
+<code class="sig-name descname">client</code><em class="property">: <a class="reference internal" href="#ftw.adders.reverb.test_utils.FakeClient" title="ftw.adders.reverb.test_utils.FakeClient">ftw.adders.reverb.test_utils.FakeClient</a></em><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationNoPadding">
+<code class="sig-name descname">test_adder_EarlyTerminationNoPadding</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=4</em>, <em class="sig-param">period=1</em>, <em class="sig-param">first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;</em>, <em class="sig-param">reward=None</em>, <em class="sig-param">discount=None</em>, <em class="sig-param">observation=1)</em>, <em class="sig-param">steps=((0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.MID: 1&gt;</em>, <em class="sig-param">reward=2.0</em>, <em class="sig-param">discount=1.0</em>, <em class="sig-param">observation=2))</em>, <em class="sig-param">(0</em>, <em class="sig-param">TimeStep(step_type=&lt;StepType.LAST: 2&gt;</em>, <em class="sig-param">reward=3.0</em>, <em class="sig-param">discount=0.0</em>, <em class="sig-param">observation=3)))</em>, <em class="sig-param">expected_sequences=()</em>, <em class="sig-param">pad_end_of_episode=False</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationNoPadding" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPaddingPeriodOne">
+<code class="sig-name descname">test_adder_EarlyTerminationPaddingPeriodOne</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=4, period=1, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())],)</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPaddingPeriodOne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPaddingPeriodTwo">
+<code class="sig-name descname">test_adder_EarlyTerminationPaddingPeriodTwo</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=4, period=2, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())],)</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPaddingPeriodTwo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPeriodOne">
+<code class="sig-name descname">test_adder_EarlyTerminationPeriodOne</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=3, period=1, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ())],)</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPeriodOne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPeriodTwo">
+<code class="sig-name descname">test_adder_EarlyTerminationPeriodTwo</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=3, period=2, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=3.0, discount=0.0, observation=3))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()), (3, 0, 0.0, 0.0, False, ())],)</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_EarlyTerminationPeriodTwo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_PaddingPeriodThree">
+<code class="sig-name descname">test_adder_PaddingPeriodThree</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=4, period=3, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=7.0, discount=1.0, observation=5)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=9.0, discount=1.0, observation=6)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=11.0, discount=1.0, observation=7)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=13.0, discount=0.0, observation=8))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 1.0, False, ())], [(4, 0, 7.0, 1.0, False, ()), (5, 0, 9.0, 1.0, False, ()), (6, 0, 11.0, 1.0, False, ()), (7, 0, 13.0, 0.0, False, ())], [(7, 0, 13.0, 0.0, False, ()), (8, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ()), (0, 0, 0.0, 0.0, False, ())])</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_PaddingPeriodThree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_PeriodOne">
+<code class="sig-name descname">test_adder_PeriodOne</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=3, period=1, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=7.0, discount=0.0, observation=5))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())], [(2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ()), (5, 0, 0.0, 0.0, False, ())])</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_PeriodOne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_PeriodTwo">
+<code class="sig-name descname">test_adder_PeriodTwo</code><span class="sig-paren">(</span><em class="sig-param">sequence_length=3, period=2, first=TimeStep(step_type=&lt;StepType.FIRST: 0&gt;, reward=None, discount=None, observation=1), steps=((0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=2.0, discount=1.0, observation=2)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=3.0, discount=1.0, observation=3)), (0, TimeStep(step_type=&lt;StepType.MID: 1&gt;, reward=5.0, discount=1.0, observation=4)), (0, TimeStep(step_type=&lt;StepType.LAST: 2&gt;, reward=7.0, discount=0.0, observation=5))), expected_sequences=([(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())], [(3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ()), (5, 0, 0.0, 0.0, False, ())])</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.sequence_test.SequenceAdderTest.test_adder_PeriodTwo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-ftw.adders.reverb.test_utils">
+<span id="ftw-adders-reverb-test-utils-module"></span><h3>ftw.adders.reverb.test_utils module<a class="headerlink" href="#module-ftw.adders.reverb.test_utils" title="Permalink to this headline">¶</a></h3>
+<p>Utilities for testing Reverb adders.</p>
+<p>This module is almost identical to acme.adders.reverb.test_utils.py, with the exception of one bugfix.
+This bugfix ensures that the number/length of observed items matches that of the expected items.
+In acme’s current state, this is not done and thus, some tests pass even though they should fail.
+The bugfix can be found in lines 186-188 of this script.</p>
+<dl class="py class">
+<dt id="ftw.adders.reverb.test_utils.AdderTestMixin">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.test_utils.</code><code class="sig-name descname">AdderTestMixin</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.AdderTestMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">absl.testing.absltest.TestCase</span></code></p>
+<p>A helper mixin for testing Reverb adders.</p>
+<p>Note that any test inheriting from this mixin must also inherit from something
+that provides the Python unittest assert methods.</p>
+<dl class="py attribute">
+<dt id="ftw.adders.reverb.test_utils.AdderTestMixin.client">
+<code class="sig-name descname">client</code><em class="property">: <a class="reference internal" href="#ftw.adders.reverb.test_utils.FakeClient" title="ftw.adders.reverb.test_utils.FakeClient">ftw.adders.reverb.test_utils.FakeClient</a></em><a class="headerlink" href="#ftw.adders.reverb.test_utils.AdderTestMixin.client" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.test_utils.AdderTestMixin.run_test_adder">
+<code class="sig-name descname">run_test_adder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">adder</span><span class="p">:</span> <span class="n">acme.adders.reverb.base.ReverbAdder</span></em>, <em class="sig-param"><span class="n">first</span><span class="p">:</span> <span class="n">dm_env._environment.TimeStep</span></em>, <em class="sig-param"><span class="n">steps</span><span class="p">:</span> <span class="n">Sequence<span class="p">[</span>Tuple<span class="p">[</span>Any<span class="p">, </span>dm_env._environment.TimeStep<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">expected_items</span><span class="p">:</span> <span class="n">Sequence<span class="p">[</span>Any<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.AdderTestMixin.run_test_adder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a unit test case for the adder.</p>
+<dl>
+<dt>Args:</dt><dd><p>adder: The instance of <cite>base.ReverbAdder</cite> that is being tested.
+first: The first <cite>dm_env.TimeStep</cite> that is used to call</p>
+<blockquote>
+<div><p><cite>base.ReverbAdder.add_first()</cite>.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>steps: A sequence of (action, timestep) tuples that are passed to</dt><dd><p><cite>base.ReverbAdder.add()</cite>.</p>
+</dd>
+<dt>expected_items: The sequence of items that are expected to be created</dt><dd><p>by calling the adder’s <cite>add_first()</cite> method on <cite>first</cite> and <cite>add()</cite> on
+all of the elements in <cite>steps</cite>.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.test_utils.AdderTestMixin.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.AdderTestMixin.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hook method for setting up the test fixture before exercising it.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.adders.reverb.test_utils.FakeClient">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.test_utils.</code><code class="sig-name descname">FakeClient</code><a class="headerlink" href="#ftw.adders.reverb.test_utils.FakeClient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Fake client for testing.</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.test_utils.FakeClient.writer">
+<code class="sig-name descname">writer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_sequence_length</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.FakeClient.writer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.adders.reverb.test_utils.FakeWriter">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.test_utils.</code><code class="sig-name descname">FakeWriter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">max_sequence_length</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.FakeWriter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Fake writer for testing.</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.test_utils.FakeWriter.append">
+<code class="sig-name descname">append</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestep</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.FakeWriter.append" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.test_utils.FakeWriter.close">
+<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.FakeWriter.close" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.test_utils.FakeWriter.create_item">
+<code class="sig-name descname">create_item</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">table</span></em>, <em class="sig-param"><span class="n">num_timesteps</span></em>, <em class="sig-param"><span class="n">priority</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.FakeWriter.create_item" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.adders.reverb.test_utils.make_sequence">
+<code class="sig-prename descclassname">ftw.adders.reverb.test_utils.</code><code class="sig-name descname">make_sequence</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">observations</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.make_sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a sequence of timesteps of the form <cite>first, [second, …, last]</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.adders.reverb.test_utils.make_trajectory">
+<code class="sig-prename descclassname">ftw.adders.reverb.test_utils.</code><code class="sig-name descname">make_trajectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">observations</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.test_utils.make_trajectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a simple trajectory from a sequence of observations.</p>
+<dl class="simple">
+<dt>Arguments:</dt><dd><p>observations: a sequence of observations.</p>
+</dd>
+<dt>Returns:</dt><dd><p>a tuple (first, steps) where first contains the initial dm_env.TimeStep
+object and steps contains a list of (action, step) tuples. The length of
+steps is given by episode_length.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ftw.adders.reverb">
+<span id="module-contents"></span><h3>Module contents<a class="headerlink" href="#module-ftw.adders.reverb" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Johannes Tochtermann
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

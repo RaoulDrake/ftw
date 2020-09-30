@@ -1,0 +1,1 @@
+from ftw.tf.internal_reward.ftw_internal_reward import InternalRewards

@@ -1,0 +1,9 @@
+cloudpickle
+future
+gym
+numpy
+Pillow
+pyglet
+scipy
+six
+pytest_cases

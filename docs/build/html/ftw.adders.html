@@ -1,0 +1,386 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reverb Adders &mdash; ftw 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reverb Replay Datasets for TensorFlow" href="ftw.datasets.html" />
+    <link rel="prev" title="For The Win (FTW) TensorFlow Agent" href="ftw.agents.tf.ftw.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ftw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html#contact">Contact</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.networks.html">TensorFlow Modules &amp; Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html">For The Win (FTW) TensorFlow Agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html#module-ftw.agents.tf.ftw.utils">Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reverb Adders</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sequence-adder"><code class="docutils literal notranslate"><span class="pre">Sequence</span> <span class="pre">Adder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#multi-sequence-adder"><code class="docutils literal notranslate"><span class="pre">Multi-Sequence</span> <span class="pre">Adder</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#non-overlapping-rnn-sequence-adder"><code class="docutils literal notranslate"><span class="pre">Non-Overlapping</span> <span class="pre">RNN</span> <span class="pre">Sequence</span> <span class="pre">Adder</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.datasets.html">Reverb Replay Datasets for TensorFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.hyperparameters.html">Hyperparameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.internal_reward.html">Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.wrappers.html">Environment Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ftw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Reverb Adders</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ftw.adders.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="reverb-adders">
+<h1>Reverb Adders<a class="headerlink" href="#reverb-adders" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="sequence-adder">
+<h2><code class="docutils literal notranslate"><span class="pre">Sequence</span> <span class="pre">Adder</span></code><a class="headerlink" href="#sequence-adder" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.adders.reverb.SequenceAdder">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.</code><code class="sig-name descname">SequenceAdder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.SequenceAdder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.adders.reverb.base.ReverbAdder</span></code></p>
+<p>An adder which adds sequences of fixed length.</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.SequenceAdder.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.SequenceAdder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a SequenceAdder instance.</p>
+<dl>
+<dt>Args:</dt><dd><p>client: See docstring for BaseAdder.
+sequence_length: The fixed length of sequences we wish to add.
+period: The period with which we add sequences. If less than</p>
+<blockquote>
+<div><p>sequence_length, overlapping sequences are added. If equal to
+sequence_length, sequences are exactly non-overlapping.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>delta_encoded: If <cite>True</cite> (False by default) enables delta encoding, see</dt><dd><p><cite>Client</cite> for more information.</p>
+</dd>
+<dt>chunk_length: Number of timesteps grouped together before delta encoding</dt><dd><p>and compression. See <cite>Client</cite> for more information.</p>
+</dd>
+</dl>
+<p>priority_fns: See docstring for BaseAdder.
+pad_end_of_episode: If True (default) then upon end of episode the current</p>
+<blockquote>
+<div><p>sequence will be padded (with observations, actions, etc… whose values
+are 0) until its length is <cite>sequence_length</cite>. If False then the last
+sequence in the episode may have length less than <cite>sequence_length</cite>.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.SequenceAdder.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.SequenceAdder.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the adder’s buffer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="multi-sequence-adder">
+<h2><code class="docutils literal notranslate"><span class="pre">Multi-Sequence</span> <span class="pre">Adder</span></code><a class="headerlink" href="#multi-sequence-adder" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.adders.reverb.MultiSequenceAdder">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.</code><code class="sig-name descname">MultiSequenceAdder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_lengths</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">periods</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">should_insert_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>acme.adders.reverb.base.PriorityFnInput<span class="p">, </span>bool<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.MultiSequenceAdder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.adders.reverb.base.ReverbAdder</span></code></p>
+<p>An adder which adds multiple sequences of fixed lengths.</p>
+<dl class="simple">
+<dt>This class is based on acme.adders.reverb.SequenceAdder, with the following enhancements:</dt><dd><ul class="simple">
+<li><p>supports multiple sequences, for which the
+sequence lengths and periods may differ for each sequence.</p></li>
+<li><p>supports conditional inserting of sequences,
+via the should_insert_fns argument of the constructor.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Furthermore, this class implements a similar bugfix (related to padding) as ftw.adders.reverb.SequenceAdder.</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.MultiSequenceAdder.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_lengths</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">periods</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">should_insert_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>acme.adders.reverb.base.PriorityFnInput<span class="p">, </span>bool<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.MultiSequenceAdder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a SequenceAdder instance.</p>
+<dl>
+<dt>Args:</dt><dd><p>client: See docstring for BaseAdder.
+sequence_lengths: Dictionary mapping table names</p>
+<blockquote>
+<div><p>to the fixed length of sequences we wish to add for that table.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>periods: Dictionary mapping table names</dt><dd><p>to the period with which we add sequences to that table. If less than
+sequence_length, overlapping sequences are added. If equal to
+sequence_length, sequences are exactly non-overlapping.</p>
+</dd>
+<dt>delta_encoded: If <cite>True</cite> (False by default) enables delta encoding, see</dt><dd><p><cite>Client</cite> for more information.</p>
+</dd>
+<dt>chunk_length: Number of timesteps grouped together before delta encoding</dt><dd><p>and compression. See <cite>Client</cite> for more information.</p>
+</dd>
+</dl>
+<p>priority_fns: See docstring for BaseAdder.
+should_insert_fns: Dictionary of functions for each sequence (table),</p>
+<blockquote>
+<div><p>taking a PriorityFnInput NamedTuple as input and returning a bool indicating
+whether the sequence should be added to the corresponding table.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>pad_end_of_episode: If True (default) then upon end of episode the current</dt><dd><p>sequence will be padded (with observations, actions, etc… whose values
+are 0) until its length is <cite>sequence_length</cite>. If False then the last
+sequence in the episode may have length less than <cite>sequence_length</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If invalid or conflicting arguments are passed to the constructor.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.MultiSequenceAdder.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.MultiSequenceAdder.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the adder’s buffer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="non-overlapping-rnn-sequence-adder">
+<h2><code class="docutils literal notranslate"><span class="pre">Non-Overlapping</span> <span class="pre">RNN</span> <span class="pre">Sequence</span> <span class="pre">Adder</span></code><a class="headerlink" href="#non-overlapping-rnn-sequence-adder" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.adders.reverb.NonOverlappingRNNSequenceAdder">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.adders.reverb.</code><code class="sig-name descname">NonOverlappingRNNSequenceAdder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.NonOverlappingRNNSequenceAdder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.adders.reverb.base.ReverbAdder</span></code></p>
+<p>An adder which adds non-overlapping sequences of fixed length.</p>
+<p>This adder is based on acme.adders.reverb.SequenceAdder, with the following modification:
+Enables adding sequences, where only the first recurrent core_state of the sequence is included.
+This saves RAM and can be used for any recurrent agent that is trained on unrolled sequences,
+if no overlapping of sequences is required.</p>
+<p>Must be used in combination with ftw.datasets.make_reverb_rnn_sequence_fifo_sampler_dataset().</p>
+<dl class="py method">
+<dt id="ftw.adders.reverb.NonOverlappingRNNSequenceAdder.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.client.Client</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">chunk_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">priority_fns</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>Callable<span class="p">[</span>PriorityFnInput<span class="p">, </span>float<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.NonOverlappingRNNSequenceAdder.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a SequenceAdder instance.</p>
+<dl>
+<dt>Args:</dt><dd><p>client: See docstring for BaseAdder.
+sequence_length: The fixed length of sequences we wish to add.
+delta_encoded: If <cite>True</cite> (False by default) enables delta encoding, see</p>
+<blockquote>
+<div><p><cite>Client</cite> for more information.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>chunk_length: Number of timesteps grouped together before delta encoding</dt><dd><p>and compression. See <cite>Client</cite> for more information.</p>
+</dd>
+</dl>
+<p>priority_fns: See docstring for BaseAdder.
+pad_end_of_episode: If True (default) then upon end of episode the current</p>
+<blockquote>
+<div><p>sequence will be padded (with observations, actions, etc… whose values
+are 0) until its length is <cite>sequence_length</cite>. If False then the last
+sequence in the episode may have length less than <cite>sequence_length</cite>.</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.adders.reverb.NonOverlappingRNNSequenceAdder.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.adders.reverb.NonOverlappingRNNSequenceAdder.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets the adder’s buffer.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ftw.datasets.html" class="btn btn-neutral float-right" title="Reverb Replay Datasets for TensorFlow" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ftw.agents.tf.ftw.html" class="btn btn-neutral float-left" title="For The Win (FTW) TensorFlow Agent" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Johannes Tochtermann
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
