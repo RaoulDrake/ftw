@@ -15,7 +15,7 @@
 
 """Utilities for testing Reverb adders.
 
-This module is almost identical to acme.adders.reverb.test_utils.py, with the exception of one bugfix.
+This module is almost identical to acme/adders/reverb/test_utils.py, with the exception of one bugfix.
 This bugfix ensures that the number/length of observed items matches that of the expected items.
 In acme's current state, this is not done and thus, some tests pass even though they should fail.
 The bugfix can be found in lines 186-188 of this script.
@@ -183,7 +183,7 @@ class AdderTestMixin(absltest.TestCase):
 
         # Make sure our expected and observed data match.
         observed_items = [p[1] for p in self.client.writers[0].priorities]
-        # This is the only change to acme.adders.reverb.test_utils.py:
+        # This is the only change to acme/adders/reverb/test_utils.py:
         # Here, we make sure that there are as many observed items as expected items.
         self.assertEqual(len(observed_items), len(expected_items))
         for expected_item, observed_item in zip(expected_items, observed_items):
