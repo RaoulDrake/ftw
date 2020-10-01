@@ -18,9 +18,10 @@
 from absl.testing import absltest
 from absl.testing import parameterized
 
-import dm_env
-from ftw.adders.reverb import sequence
+from ftw.adders.reverb import sequence as adders
 from ftw.adders.reverb import test_utils
+
+import dm_env
 
 TEST_CASES = [
     dict(
@@ -36,9 +37,19 @@ TEST_CASES = [
         ),
         expected_sequences=(
             # (observation, action, reward, discount, start_of_episode, extra)
-            [(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())],
-            [(2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ())],
-            [(3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ()), (5, 0, 0.0, 0.0, False, ())],
+            [
+                (1, 0, 2.0, 1.0, True, ()),
+                (2, 0, 3.0, 1.0, False, ()),
+                (3, 0, 5.0, 1.0, False, ())
+            ],
+            [
+                (2, 0, 3.0, 1.0, False, ()),
+                (3, 0, 5.0, 1.0, False, ()),
+                (4, 0, 7.0, 0.0, False, ())
+            ],
+            [(3, 0, 5.0, 1.0, False, ()),
+             (4, 0, 7.0, 0.0, False, ()),
+             (5, 0, 0.0, 0.0, False, ())],
         ),
     ),
     dict(
@@ -54,8 +65,16 @@ TEST_CASES = [
         ),
         expected_sequences=(
             # (observation, action, reward, discount, start_of_episode, extra)
-            [(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 1.0, False, ()), (3, 0, 5.0, 1.0, False, ())],
-            [(3, 0, 5.0, 1.0, False, ()), (4, 0, 7.0, 0.0, False, ()), (5, 0, 0.0, 0.0, False, ())],
+            [
+                (1, 0, 2.0, 1.0, True, ()),
+                (2, 0, 3.0, 1.0, False, ()),
+                (3, 0, 5.0, 1.0, False, ())
+            ],
+            [
+                (3, 0, 5.0, 1.0, False, ()),
+                (4, 0, 7.0, 0.0, False, ()),
+                (5, 0, 0.0, 0.0, False, ())
+            ],
         ),
     ),
     dict(
@@ -93,8 +112,11 @@ TEST_CASES = [
         ),
         expected_sequences=(
             # (observation, action, reward, discount, start_of_episode, extra)
-            [(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()),
-             (3, 0, 0.0, 0.0, False, ())],),
+            [
+                (1, 0, 2.0, 1.0, True, ()),
+                (2, 0, 3.0, 0.0, False, ()),
+                (3, 0, 0.0, 0.0, False, ())
+            ],),
     ),
     dict(
         testcase_name='EarlyTerminationPeriodTwo',
@@ -107,8 +129,11 @@ TEST_CASES = [
         ),
         expected_sequences=(
             # (observation, action, reward, discount, start_of_episode, extra)
-            [(1, 0, 2.0, 1.0, True, ()), (2, 0, 3.0, 0.0, False, ()),
-             (3, 0, 0.0, 0.0, False, ())],),
+            [
+                (1, 0, 2.0, 1.0, True, ()),
+                (2, 0, 3.0, 0.0, False, ()),
+                (3, 0, 0.0, 0.0, False, ()),
+            ],),
     ),
     dict(
         testcase_name='EarlyTerminationPaddingPeriodOne',
@@ -169,11 +194,9 @@ TEST_CASES = [
 class SequenceAdderTest(test_utils.AdderTestMixin, parameterized.TestCase):
 
     @parameterized.named_parameters(*TEST_CASES)
-    def test_adder(self, sequence_length: int,
-                   period: int,
-                   first, steps, expected_sequences,
-                   pad_end_of_episode: bool = True):
-        adder = sequence.SequenceAdder(
+    def test_adder(self, sequence_length: int, period: int, first, steps,
+                   expected_sequences, pad_end_of_episode: bool = True):
+        adder = adders.SequenceAdder(
             self.client,
             sequence_length=sequence_length,
             period=period,
