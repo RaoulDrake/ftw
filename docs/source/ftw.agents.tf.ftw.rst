@@ -31,7 +31,6 @@ For The Win (FTW) TensorFlow Agent
 
 Utilities for Replay Buffers, Datasets, Hyperparameters & Internal Rewards
 ==========================================================================
-
 .. automodule:: ftw.agents.tf.ftw.utils
    :members:
    :undoc-members:
