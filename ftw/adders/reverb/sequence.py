@@ -21,8 +21,8 @@ This module is almost identical to the original acme.adders.reverb.sequence.py, 
 In the original module, sequences were never padded because the calculation of how many steps need to be padded
 did not work as expected: with an increasing step, the result of this calculation in the original would eventually
 become negative, with the result that padding never happens.
-This edit of the module fixes this bug and always pads with zeros, if enabled. The Bugfix can be found in
-[these lines](https://github.com/RaoulDrake/ftw/ftw/adders/reverb/sequence.py#L107-L115).
+This edit of the module fixes this bug and always pads with zeros, if enabled.
+The Bugfix can be found in lines 107-115.
 """
 
 from typing import Optional
