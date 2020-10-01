@@ -13,7 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for sequence adders."""
+"""Tests for sequence adders.
+
+This script adapts https://github.com/deepmind/acme/blob/master/acme/adders/reverb/sequence_test.py
+and
+    -   modifies the EarlyTerminationNoPadding testcase
+        to reflect the behaviour resulting from the padding bugfix in SequenceAdder
+    -   adds a new PaddingPeriodThree testcase
+"""
 
 from absl.testing import absltest
 from absl.testing import parameterized
