@@ -4,7 +4,7 @@ For The Win (FTW) TensorFlow Agent
 
 ``FTW Agent``
 *************
-.. autoclass:: ftw.agents.tf.ftw.FTW
+.. autoclass:: ftw.agents.tf.ftw.agent.FTW
     :members:
     :undoc-members:
     :show-inheritance:
@@ -13,7 +13,7 @@ For The Win (FTW) TensorFlow Agent
 
 ``FTW Learner``
 ***************
-.. autoclass:: ftw.agents.tf.ftw.FtwLearner
+.. autoclass:: ftw.agents.tf.ftw.learning.FtwLearner
     :members:
     :undoc-members:
     :show-inheritance:
@@ -22,7 +22,7 @@ For The Win (FTW) TensorFlow Agent
 
 ``FTW Actor``
 *************
-.. autoclass:: ftw.agents.tf.ftw.FtwActor
+.. autoclass:: ftw.agents.tf.ftw.acting.FtwActor
     :members:
     :undoc-members:
     :show-inheritance:
