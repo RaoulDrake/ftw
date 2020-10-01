@@ -17,7 +17,7 @@
 
 This implements adders which add sequences or partial trajectories.
 
-This module is almost identical to the original acme.adders.reverb.sequence.py, with one bugfix:
+This module is almost identical to the original acme/adders/reverb/sequence.py, with one bugfix:
 In the original module, sequences were never padded because the calculation of how many steps need to be padded
 did not work as expected: with an increasing step, the result of this calculation in the original would eventually
 become negative, with the result that padding never happens.
