@@ -1,0 +1,972 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>TensorFlow Modules &amp; Networks &mdash; ftw 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DNC Memory Modules" href="ftw.tf.networks.dnc.html" />
+    <link rel="prev" title="Documentation for For The Win (FTW) Agent implementation." href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ftw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">TensorFlow Modules &amp; Networks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ftw.tf.networks.dnc.html">DNC Memory Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#auxiliary-task-modules-networks">Auxiliary Task Modules &amp; Networks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#pixel-control-module"><code class="docutils literal notranslate"><span class="pre">Pixel</span> <span class="pre">Control</span> <span class="pre">module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rnn-pixel-control-network"><code class="docutils literal notranslate"><span class="pre">RNN</span> <span class="pre">Pixel</span> <span class="pre">Control</span> <span class="pre">network</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reward-prediction-module"><code class="docutils literal notranslate"><span class="pre">Reward</span> <span class="pre">Prediction</span> <span class="pre">module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#reward-prediction-network"><code class="docutils literal notranslate"><span class="pre">Reward</span> <span class="pre">Prediction</span> <span class="pre">network</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#distributional-modules">Distributional modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#multivariate-normal-diagonal-distribution-head"><code class="docutils literal notranslate"><span class="pre">Multivariate</span> <span class="pre">Normal</span> <span class="pre">Diagonal</span> <span class="pre">Distribution</span> <span class="pre">Head</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#multivariate-normal-diagonal-distribution-loc-scale-head"><code class="docutils literal notranslate"><span class="pre">Multivariate</span> <span class="pre">Normal</span> <span class="pre">Diagonal</span> <span class="pre">Distribution</span> <span class="pre">Loc</span> <span class="pre">Scale</span> <span class="pre">Head</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#embedding-modules">Embedding Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#observation-action-reward-embedding-module"><code class="docutils literal notranslate"><span class="pre">Observation</span> <span class="pre">Action</span> <span class="pre">Reward</span> <span class="pre">Embedding</span> <span class="pre">Module</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ftw.tf.networks.ftw_network">For The Win (FTW) Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#policy-value-head-module">Policy Value Head Module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">Policy</span> <span class="pre">Value</span> <span class="pre">Head</span> <span class="pre">Module</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#recurrent-core-modules">Recurrent Core Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dnc-wrapper-module"><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">Wrapper</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#variational-unit-module"><code class="docutils literal notranslate"><span class="pre">Variational</span> <span class="pre">Unit</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#periodic-variational-unit-module"><code class="docutils literal notranslate"><span class="pre">Periodic</span> <span class="pre">Variational</span> <span class="pre">Unit</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rpth-recurrent-processing-with-temporal-hierarchy-module"><code class="docutils literal notranslate"><span class="pre">RPTH</span> <span class="pre">(Recurrent</span> <span class="pre">Processing</span> <span class="pre">with</span> <span class="pre">Temporal</span> <span class="pre">Hierarchy)</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#convenience-wrapper-for-rpth-module"><code class="docutils literal notranslate"><span class="pre">Convenience</span> <span class="pre">Wrapper</span> <span class="pre">for</span> <span class="pre">RPTH</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#named-tuples-for-recurrent-outputs-and-states"><code class="docutils literal notranslate"><span class="pre">Named</span> <span class="pre">Tuples</span> <span class="pre">for</span> <span class="pre">Recurrent</span> <span class="pre">Outputs</span> <span class="pre">and</span> <span class="pre">States</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vision-visual-embedding-modules">Vision (Visual Embedding) Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html">For The Win (FTW) TensorFlow Agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html#module-ftw.agents.tf.ftw.utils">Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.adders.html">Reverb Adders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.datasets.html">Reverb Replay Datasets for TensorFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.hyperparameters.html">Hyperparameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.internal_reward.html">Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.wrappers.html">Environment Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ftw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>TensorFlow Modules &amp; Networks</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ftw.tf.networks.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="tensorflow-modules-networks">
+<h1>TensorFlow Modules &amp; Networks<a class="headerlink" href="#tensorflow-modules-networks" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.networks.dnc.html">DNC Memory Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.dnc.html#dnc-module"><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.dnc.html#dnc-state-namedtuple"><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">State</span> <span class="pre">NamedTuple</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.dnc.html#memory-access-module"><code class="docutils literal notranslate"><span class="pre">Memory</span> <span class="pre">Access</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.dnc.html#memory-access-state-namedtuple"><code class="docutils literal notranslate"><span class="pre">Memory</span> <span class="pre">Access</span> <span class="pre">State</span> <span class="pre">NamedTuple</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ftw.tf.networks.dnc.html#module-ftw.tf.networks.dnc.addressing">Addressing module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="auxiliary-task-modules-networks">
+<h2>Auxiliary Task Modules &amp; Networks<a class="headerlink" href="#auxiliary-task-modules-networks" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pixel-control-module">
+<h3><code class="docutils literal notranslate"><span class="pre">Pixel</span> <span class="pre">Control</span> <span class="pre">module</span></code><a class="headerlink" href="#pixel-control-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.auxiliary.PixelControl">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.auxiliary.</code><code class="sig-name descname">PixelControl</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.PixelControl" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Module that produces a pixel control output (i.e. Q-values) from a hidden state input.</p>
+<p>This module implements the Pixel Control module from the FTW paper.</p>
+<p>Thus, it produces an output of shape [batch_size, 20, 20, num_actions], representing a grid of 20 x 20 cells,
+each representing a 5 x 5 pixel area, covering a pixel area of altogether 80 x 80 pixels
+(= (20 cells x 5 pixels) x (20 cells x 5 pixels)).</p>
+<p>Consequently, the output produced by this module can only be used for pixel control loss calculation if the
+observations input to the pixel control loss function is of shape [sequence_length, batch_size, 80, 80, 3]
+(Pixel control only supports RGB Pixel observations).</p>
+<p>Recommended usage is to have 84 x 84 x 3 RGB pixel observations as input to this module and
+to crop these observations to the central 80 x 80 pixel area for loss calculation,
+as done by the FTW and UNREAL agents.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.auxiliary.PixelControl.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">num_actions: int</em>, <em class="sig-param">activation: Callable[tensorflow.python.framework.ops.Tensor</em>, <em class="sig-param">tensorflow.python.framework.ops.Tensor] = &lt;function relu&gt;</em>, <em class="sig-param">name: str = 'pixel_control'</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.PixelControl.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the PixelControl module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>num_actions: number of actions in discrete action space
+activation: activation function to be used (after linear and deconvolutional layer)
+name: name for the module</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="rnn-pixel-control-network">
+<h3><code class="docutils literal notranslate"><span class="pre">RNN</span> <span class="pre">Pixel</span> <span class="pre">Control</span> <span class="pre">network</span></code><a class="headerlink" href="#rnn-pixel-control-network" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.auxiliary.RNNPixelControlNetwork">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.auxiliary.</code><code class="sig-name descname">RNNPixelControlNetwork</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RNNPixelControlNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>Module that produces a Pixel control output (i.e. Q-values) from a pixel observations input.</p>
+<p>This module implements the Pixel control module from the FTW paper and wraps it together with a (possibly shared)
+visual embedding module (= embed) and a (possibly shared) recurrent core (= core).
+Thus, it produces an output of shape [batch_size, 20, 20, num_actions], representing a grid of 20 x 20 cells,
+each representing a 5 x 5 pixel area, covering a pixel area of altogether 80 x 80 pixels
+(= (20 cells x 5 pixels) x (20 cells x 5 pixels)).
+Consequently, the output produced by this module can only be used for Pixel control loss calculation if the
+observations input to the Pixel control loss function is of shape [sequence_length, batch_size, 80, 80, 3]
+(Pixel control only supports RGB Pixel observations).</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.auxiliary.RNNPixelControlNetwork.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">embed: sonnet.src.base.Module</em>, <em class="sig-param">core: sonnet.src.recurrent.RNNCore</em>, <em class="sig-param">num_actions: int</em>, <em class="sig-param">activation: Callable[tensorflow.python.framework.ops.Tensor</em>, <em class="sig-param">tensorflow.python.framework.ops.Tensor] = &lt;function relu&gt;</em>, <em class="sig-param">name: str = 'rnn_pixel_control_network'</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RNNPixelControlNetwork.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the RNNPixelControlNetwork module.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>embed: Visual embedding module (of type sonnet.Module) to transform observations into an embedding,</dt><dd><p>e.g. FtwTorso.</p>
+</dd>
+<dt>core: Recurrent core (of type sonnet.RNNCore) to transform embedding into input for PixelControl module,</dt><dd><p>e.g. RPTH.</p>
+</dd>
+</dl>
+<p>num_actions: number of actions in discrete action space.
+activation: activation function to be used in PixelControl module (after linear and deconvolutional layer)
+name: name for the module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.auxiliary.RNNPixelControlNetwork.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RNNPixelControlNetwork.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the initial state of the recurrent core.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.auxiliary.RNNPixelControlNetwork.unroll">
+<code class="sig-name descname">unroll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputs</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RNNPixelControlNetwork.unroll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unrolls the module over a sequence of pixel observation inputs and produces Pixel Control Q-values.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>inputs: Sequence of (batched) Pixel observations, in the form of a tf.Tensor or an</dt><dd><p>observation_action_reward.OAR namedtuple.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>pixel_control_q_vals: Sequence of (batched) Pixel control Q-values with shape [T, B, 20, 20, num_actions].</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="reward-prediction-module">
+<h3><code class="docutils literal notranslate"><span class="pre">Reward</span> <span class="pre">Prediction</span> <span class="pre">module</span></code><a class="headerlink" href="#reward-prediction-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.auxiliary.RewardPrediction">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.auxiliary.</code><code class="sig-name descname">RewardPrediction</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RewardPrediction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Module that produces a reward prediction output from a hidden state tensor.</p>
+<p>This module implements the Reward prediction module from the FTW paper and wraps it together with a
+(possibly shared) embedding module (= embed). Thus, its output is a logits tensor, representing the
+log-probabilities for the 3 categories to predict (zero reward, negative reward, positive reward).</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.auxiliary.RewardPrediction.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">hidden_size: int = 128</em>, <em class="sig-param">activation: Callable[tensorflow.python.framework.ops.Tensor</em>, <em class="sig-param">tensorflow.python.framework.ops.Tensor] = &lt;function relu&gt;</em>, <em class="sig-param">name='reward_prediction'</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RewardPrediction.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the RewardPrediction module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>hidden_size: size of hidden linear layer
+activation: activation function to be used (between linear and logits layer)
+name: name for the module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="reward-prediction-network">
+<h3><code class="docutils literal notranslate"><span class="pre">Reward</span> <span class="pre">Prediction</span> <span class="pre">network</span></code><a class="headerlink" href="#reward-prediction-network" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.auxiliary.RewardPredictionNetwork">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.auxiliary.</code><code class="sig-name descname">RewardPredictionNetwork</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RewardPredictionNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Module that produces a reward prediction output from an observations input.</p>
+<p>This module implements the Reward prediction module from the FTW paper and wraps it together with a
+(possibly shared) embedding module (= embed). Thus, its output is a logits tensor, representing the
+log-probabilities for the 3 categories to predict (zero reward, negative reward, positive reward).</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.auxiliary.RewardPredictionNetwork.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">embed: sonnet.src.base.Module</em>, <em class="sig-param">hidden_size: int = 128</em>, <em class="sig-param">activation: Callable[tensorflow.python.framework.ops.Tensor</em>, <em class="sig-param">tensorflow.python.framework.ops.Tensor] = &lt;function relu&gt;</em>, <em class="sig-param">name='reward_prediction_network'</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.auxiliary.RewardPredictionNetwork.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the RewardPredictionNetwork module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>embed: Embedding module (of type sonnet.Module) to transform observations into an embedding, e.g. FtwTorso.
+hidden_size: size of hidden linear layer
+activation: activation function to be used in RewardPrediction module (between linear and logits layer)
+name: name for the module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="distributional-modules">
+<h2>Distributional modules<a class="headerlink" href="#distributional-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="multivariate-normal-diagonal-distribution-head">
+<h3><code class="docutils literal notranslate"><span class="pre">Multivariate</span> <span class="pre">Normal</span> <span class="pre">Diagonal</span> <span class="pre">Distribution</span> <span class="pre">Head</span></code><a class="headerlink" href="#multivariate-normal-diagonal-distribution-head" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.distributional.MultivariateNormalDiagHead">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.distributional.</code><code class="sig-name descname">MultivariateNormalDiagHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.distributional.MultivariateNormalDiagHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Module that produces a multivariate normal distribution using tfd.Independent or tfd.MultivariateNormalDiag.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.distributional.MultivariateNormalDiagHead.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">num_dimensions: int</em>, <em class="sig-param">init_scale: float = 0.3</em>, <em class="sig-param">min_scale: float = 1e-06</em>, <em class="sig-param">tanh_mean: bool = False</em>, <em class="sig-param">fixed_scale: bool = False</em>, <em class="sig-param">use_tfd_independent: bool = False</em>, <em class="sig-param">w_init: Optional[Union[sonnet.src.initializers.Initializer</em>, <em class="sig-param">tensorflow.python.keras.initializers.initializers_v2.Initializer]] = &lt;tensorflow.python.keras.initializers.initializers_v2.VarianceScaling object&gt;</em>, <em class="sig-param">b_init: Optional[Union[sonnet.src.initializers.Initializer</em>, <em class="sig-param">tensorflow.python.keras.initializers.initializers_v2.Initializer]] = &lt;tensorflow.python.keras.initializers.initializers_v2.Zeros object&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.distributional.MultivariateNormalDiagHead.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization.</p>
+<dl>
+<dt>Args:</dt><dd><p>num_dimensions: Number of dimensions of MVN distribution.
+init_scale: Initial standard deviation.
+min_scale: Minimum standard deviation.
+tanh_mean: Whether to transform the mean (via tanh) before passing it to</p>
+<blockquote>
+<div><p>the distribution.</p>
+</div></blockquote>
+<p>fixed_scale: Whether to use a fixed variance.
+use_tfd_independent: Whether to use tfd.Independent or</p>
+<blockquote>
+<div><p>tfd.MultivariateNormalDiag class</p>
+</div></blockquote>
+<p>w_init: Initialization for linear layer weights.
+b_init: Initialization for linear layer biases.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="multivariate-normal-diagonal-distribution-loc-scale-head">
+<h3><code class="docutils literal notranslate"><span class="pre">Multivariate</span> <span class="pre">Normal</span> <span class="pre">Diagonal</span> <span class="pre">Distribution</span> <span class="pre">Loc</span> <span class="pre">Scale</span> <span class="pre">Head</span></code><a class="headerlink" href="#multivariate-normal-diagonal-distribution-loc-scale-head" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.distributional.MultivariateNormalDiagLocScaleHead">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.distributional.</code><code class="sig-name descname">MultivariateNormalDiagLocScaleHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.distributional.MultivariateNormalDiagLocScaleHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Module that produces mean and scale of a multivariate normal distribution.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.distributional.MultivariateNormalDiagLocScaleHead.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_dimensions</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">init_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">min_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">tanh_mean</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fixed_scale</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">w_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.distributional.MultivariateNormalDiagLocScaleHead.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization.</p>
+<dl>
+<dt>Args:</dt><dd><p>num_dimensions: Number of dimensions of MVN distribution.
+init_scale: Initial standard deviation.
+min_scale: Minimum standard deviation.
+tanh_mean: Whether to transform the mean (via tanh) before passing it to</p>
+<blockquote>
+<div><p>the distribution.</p>
+</div></blockquote>
+<p>fixed_scale: Whether to use a fixed variance.
+w_init: Initialization for linear layer weights.
+b_init: Initialization for linear layer biases.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="embedding-modules">
+<h2>Embedding Modules<a class="headerlink" href="#embedding-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="observation-action-reward-embedding-module">
+<h3><code class="docutils literal notranslate"><span class="pre">Observation</span> <span class="pre">Action</span> <span class="pre">Reward</span> <span class="pre">Embedding</span> <span class="pre">Module</span></code><a class="headerlink" href="#observation-action-reward-embedding-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.embedding.OAREmbedding">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.embedding.</code><code class="sig-name descname">OAREmbedding</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.embedding.OAREmbedding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Module for embedding (observation, action, reward) inputs together.</p>
+<dl class="simple">
+<dt>This module is based on dm-acme’s OAREmbedding module, but was enhanced to further support</dt><dd><ul class="simple">
+<li><p>multi-discrete/decomposed action spaces (such as the one from the FTW paper)</p></li>
+<li><p>internal rewards (as used by the FTW agent).</p></li>
+</ul>
+</dd>
+</dl>
+<p>If a multi-discrete/decomposed action space is used, the action will be embedded as a concatenation of
+one-hot encodings (one encoding per action group in the multi-discrete/decomposed action space).</p>
+<dl class="simple">
+<dt>If internal rewards are used, the embedding of the reward will be computed</dt><dd><ul class="simple">
+<li><p>in case of scalar original reward and scalar internal reward: as the product between both</p></li>
+<li><p>in case of original rewards vector and scalar internal reward: as the product between both</p></li>
+<li><p>in case original rewards vector and internal rewards vector: as the dot product between both.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Scalar original reward and internal rewards vector is not a supported use-case.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.embedding.OAREmbedding.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">torso</span><span class="p">:</span> <span class="n">acme.tf.networks.base.Module</span></em>, <em class="sig-param"><span class="n">num_actions</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>Sequence<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">internal_rewards</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>ftw.tf.internal_reward.ftw_internal_reward.InternalRewards<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.embedding.OAREmbedding.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the OAREmbedding module.</p>
+<dl>
+<dt>Args:</dt><dd><p>torso: Module transforming observations into an embedding
+num_actions: Number of actions in action space. Supports discrete action space (if int is supplied),</p>
+<blockquote>
+<div><p>or multi-discrete/decomposed action space (if sequence of ints is supplied, one for each action group).</p>
+</div></blockquote>
+<dl class="simple">
+<dt>internal_rewards: InternalRewards module (as used in the FTW paper). Optional.</dt><dd><p>If None, no internal rewards calculation will be done.</p>
+</dd>
+</dl>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If shapes and/or types of constructor arguments do not match expected shapes and types.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-ftw.tf.networks.ftw_network">
+<span id="for-the-win-ftw-network"></span><h2>For The Win (FTW) Network<a class="headerlink" href="#module-ftw.tf.networks.ftw_network" title="Permalink to this headline">¶</a></h2>
+<p>Network for FTW agent.</p>
+<dl class="py class">
+<dt id="ftw.tf.networks.ftw_network.FtwNetwork">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.ftw_network.</code><code class="sig-name descname">FtwNetwork</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.ftw_network.FtwNetwork" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.ftw_network.FtwNetwork.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.ftw_network.FtwNetwork.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs an initial state for this core.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_size: An int or an integral scalar tensor representing batch size.
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Optional keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Arbitrarily nested initial state for this core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.ftw_network.FtwNetwork.select_action">
+<code class="sig-name descname">select_action</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batched_observation</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.ftw_network.FtwNetwork.select_action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.ftw_network.FtwNetwork.unroll">
+<code class="sig-name descname">unroll</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">inputs</span><span class="p">:</span> <span class="n">acme.wrappers.observation_action_reward.OAR</span></em>, <em class="sig-param"><span class="n">states</span><span class="p">:</span> <span class="n">sonnet.src.recurrent.LSTMState</span></em><span class="sig-paren">)</span> &#x2192; Tuple<span class="p">[</span>Tuple<span class="p">[</span>tensorflow.python.framework.ops.Tensor<span class="p">, </span>tensorflow.python.framework.ops.Tensor<span class="p">, </span>Tuple<span class="p">[</span>tensorflow.python.framework.ops.Tensor<span class="p">, </span>Sequence<span class="p">[</span>Tuple<span class="p">[</span>tensorflow.python.framework.ops.Tensor<span class="p">, </span>tensorflow.python.framework.ops.Tensor<span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">, </span>sonnet.src.recurrent.LSTMState<span class="p">]</span><a class="headerlink" href="#ftw.tf.networks.ftw_network.FtwNetwork.unroll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Efficient unroll that applies embeddings, MLP, &amp; convnet in one pass.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="policy-value-head-module">
+<h2>Policy Value Head Module<a class="headerlink" href="#policy-value-head-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3><code class="docutils literal notranslate"><span class="pre">Policy</span> <span class="pre">Value</span> <span class="pre">Head</span> <span class="pre">Module</span></code><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.policy_value.PolicyValueHead">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.policy_value.</code><code class="sig-name descname">PolicyValueHead</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.policy_value.PolicyValueHead" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>A network with linear layers, for policy and value respectively.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.policy_value.PolicyValueHead.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">num_actions: int</em>, <em class="sig-param">hidden_size: int = 256</em>, <em class="sig-param">activation=&lt;function relu&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.policy_value.PolicyValueHead.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the PolicyValueHead module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>num_actions: Number of actions in discrete action space.
+hidden_size: Size of hidden layers (between input and output layers).
+activation: Activation function to be used by this module (between hidden and output layers).</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If shapes and/or types of constructor arguments do not match expected shapes and types.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="recurrent-core-modules">
+<h2>Recurrent Core Modules<a class="headerlink" href="#recurrent-core-modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dnc-wrapper-module">
+<h3><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">Wrapper</span> <span class="pre">Module</span></code><a class="headerlink" href="#dnc-wrapper-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.DNCWrapper">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">DNCWrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.DNCWrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>DNC Memory Wrapper module wrapping an LSTM controller, a DNC MemoryAccess module and an output layer together.</p>
+<p>This module implements the DNC memory introduced by Deepmind by connecting an LSTM controller, a DNC MemoryAccess
+module and an output layer, which are all provided to the module via constructor arguments.
+In contrast to the original TensorFlow version 1.x implementation of the DNC module at
+<a class="reference external" href="https://github.com/deepmind/dnc">https://github.com/deepmind/dnc</a>, this module lets the user supply controller, memory and output modules as
+constructor arguments, instead of accepting parameters for the creation of these in the constructor arguments and
+then building the modules during construction (as is done in the original implementation).</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.DNCWrapper.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lstm</span><span class="p">:</span> <span class="n">sonnet.src.recurrent.LSTM</span></em>, <em class="sig-param"><span class="n">memory</span><span class="p">:</span> <span class="n"><a class="reference internal" href="ftw.tf.networks.dnc.html#ftw.tf.networks.dnc.access.MemoryAccess" title="ftw.tf.networks.dnc.access.MemoryAccess">ftw.tf.networks.dnc.access.MemoryAccess</a></span></em>, <em class="sig-param"><span class="n">output_layer</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.base.Module<span class="p">, </span>Callable<span class="p">[</span>tensorflow.python.framework.ops.Tensor<span class="p">, </span>Union<span class="p">[</span>tensorflow.python.framework.ops.Tensor<span class="p">, </span>tensorflow_probability.python.distributions.distribution.Distribution<span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'dnc_wrapper'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.DNCWrapper.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the DNCWrapper module</p>
+<p>The clip_value Args info was taken from the original TensorFlow version 1.x implementation of the DNC module
+at <a class="reference external" href="https://github.com/deepmind/dnc">https://github.com/deepmind/dnc</a>.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>lstm: LSTM module of type sonnet.LSTM.
+memory: DNC MemoryAccess module.
+output_layer: Output layer that outputs either a tf.Tensor or a tfp.Distribution.
+clip_value: clips controller and core output values to between [-clip_value, clip_value]` if specified.
+name: Name for the module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.DNCWrapper.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.DNCWrapper.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the initial DNCState namedtuple, containing all elements of the recurrent state.</p>
+<dl class="simple">
+<dt>Elements of the DNCState recurrent state are:</dt><dd><ul class="simple">
+<li><p>controller_state: state of the controller module (LSTM)</p></li>
+<li><p>access_state: state of the DNC MemoryAccess module</p></li>
+<li><p>access_output: last output of the DNC MemoryAccess module.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><p>A DNCState namedtuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="variational-unit-module">
+<h3><code class="docutils literal notranslate"><span class="pre">Variational</span> <span class="pre">Unit</span> <span class="pre">Module</span></code><a class="headerlink" href="#variational-unit-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.VariationalUnit">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">VariationalUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.VariationalUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>Variational Unit module as introduced by the FTW paper.</p>
+<p>Can be used with a shared DNC MemoryAccess module, if supplied via constructor arguments.</p>
+<p>See also the FTW paper for more information, especially Figure S11 of the supplementary material.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.VariationalUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hidden_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">num_dimensions</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">shared_memory</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="ftw.tf.networks.dnc.html#ftw.tf.networks.dnc.access.MemoryAccess" title="ftw.tf.networks.dnc.access.MemoryAccess">ftw.tf.networks.dnc.access.MemoryAccess</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dnc_clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_dnc_linear_projection</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">init_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">min_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">tanh_mean</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fixed_scale</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">w_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'variational_unit'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.VariationalUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization.</p>
+<dl>
+<dt>Args:</dt><dd><p>hidden_size: Hidden size of LSTM.
+num_dimensions: Number of dimensions of MVN distribution.
+shared_memory: (Possibly shared) DNC MemoryAccess module. Optional. If None, no memory is used.
+dnc_clip_value: Only used when shared_memory is not None. Clip value used by DNC module for clipping the</p>
+<blockquote>
+<div><p>(LSTM) controller output and state, as well as the linear output.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>use_dnc_linear_projection: Only used when shared_memory is not None. Whether the DNC module outputs the</dt><dd><p>concatenated LSTM and memory outputs or a linear projection thereof (with the same hidden size as the LSTM).
+In the original DNC, this linear projection is used. Defaults to True.</p>
+</dd>
+</dl>
+<p>init_scale: Initial standard deviation.
+min_scale: Minimum standard deviation.
+tanh_mean: Whether to transform the mean (via tanh) before passing it to the distribution.
+fixed_scale: Whether to use a fixed variance.
+w_init: Initialization for linear layer weights.
+b_init: Initialization for linear layer biases.
+name: Name for the module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.VariationalUnit.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.VariationalUnit.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the initial recurrent state.</p>
+<p>Recurrent state is an LSTMState namedtuple if LSTM core is used, or DNCState namedtuple if DNC core is used.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Initial state namedtuple (LSTMState or DNCState, depending on which core is used) of recurrent core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="periodic-variational-unit-module">
+<h3><code class="docutils literal notranslate"><span class="pre">Periodic</span> <span class="pre">Variational</span> <span class="pre">Unit</span> <span class="pre">Module</span></code><a class="headerlink" href="#periodic-variational-unit-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.PeriodicVariationalUnit">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">PeriodicVariationalUnit</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.PeriodicVariationalUnit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ftw.tf.networks.recurrence.VariationalUnit" title="ftw.tf.networks.recurrence.VariationalUnit"><code class="xref py py-class docutils literal notranslate"><span class="pre">ftw.tf.networks.recurrence.VariationalUnit</span></code></a></p>
+<p>Periodic Variational Unit module as introduced by the FTW paper.</p>
+<p>This module implements a Variational Unit that only updates its hidden state every period steps
+(i.e. if step % period = 0), as used by the FTW agent.</p>
+<p>See also the FTW paper for more information, especially Figure S11 of the supplementary material.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.PeriodicVariationalUnit.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">hidden_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">num_dimensions</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">shared_memory</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="ftw.tf.networks.dnc.html#ftw.tf.networks.dnc.access.MemoryAccess" title="ftw.tf.networks.dnc.access.MemoryAccess">ftw.tf.networks.dnc.access.MemoryAccess</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dnc_clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_dnc_linear_projection</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">init_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">min_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">tanh_mean</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fixed_scale</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">w_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'periodic_variational_unit'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.PeriodicVariationalUnit.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialization.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>period: Periodically update the recurrent core every period steps.</dt><dd><p>This module keeps a step counter in its state (which resets to 0 when initial_state() is called).
+The recurrent core of this module only updates its hidden state when step % period == 0.</p>
+</dd>
+<dt>For all other arguments, please see the docstrings for</dt><dd><ul class="simple">
+<li><p>VariationalUnit (in ftw.tf.networks.recurrence) and</p></li>
+<li><p>MultivariateNormalDiagLocScaleHead (in ftw.tf.networks.distributional).</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.PeriodicVariationalUnit.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.PeriodicVariationalUnit.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the initial recurrent state.</p>
+<p>Recurrent state is a PeriodicRNNState namedtuple containing recurrent core_state (core_state),
+previous output (output) and step counter (step), where output is a LocScaleDistributionParameters namedtuple
+containing the mean and scale (stddev) of a Multivariate Normal Diagonal distribution.</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>Initial recurrent state as a PeriodicRNNState namedtuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="rpth-recurrent-processing-with-temporal-hierarchy-module">
+<h3><code class="docutils literal notranslate"><span class="pre">RPTH</span> <span class="pre">(Recurrent</span> <span class="pre">Processing</span> <span class="pre">with</span> <span class="pre">Temporal</span> <span class="pre">Hierarchy)</span> <span class="pre">Module</span></code><a class="headerlink" href="#rpth-recurrent-processing-with-temporal-hierarchy-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.RPTH">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">RPTH</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>Recurrent processing with temporal hierarchy module, as introduced by the FTW paper.</p>
+<p>This module consists of 2 or more Variational Units,
+where one Variational Unit updates its hidden state every step and is responsible for the posterior distribution,
+and the other Variational Unit updates its hidden state only if step % period = 0 and is responsible for the
+prior distribution.
+Optionally, a DNC MemoryAccess module can be supplied as a constructor argument, which will be shared by all cores,
+i.e. all cores write to and read from the same memory, and memory weights are shared among all cores.</p>
+<p>Warning: Please note that while support for more than 2 cores is implemented, it is not tested yet and is thus
+highly discouraged. Please proceed with care if you wish to use this feature.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.RPTH.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>Sequence<span class="p">[</span>int<span class="p">]</span><span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">, </span>Sequence<span class="p">[</span>tensorflow.python.ops.variables.Variable<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">hidden_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">num_dimensions</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">dnc_clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_dnc_linear_projection</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">init_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">min_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">tanh_mean</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fixed_scale</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_tfd_independent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">w_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shared_memory</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="ftw.tf.networks.dnc.html#ftw.tf.networks.dnc.access.MemoryAccess" title="ftw.tf.networks.dnc.access.MemoryAccess">ftw.tf.networks.dnc.access.MemoryAccess</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strict_period_order</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">scale_gradients_fast_to_slow</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Sequence<span class="p">[</span>float<span class="p">]</span><span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">, </span>Sequence<span class="p">[</span>tensorflow.python.ops.variables.Variable<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'rpth'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTH.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the RPTH module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>period: Periodically update the recurrent core(s) every period steps. If period is a</dt><dd><p>scalar int value, only one slow core will be used. If period is a sequence of scalar int values,
+multiple slow cores, each with the given period, will be used. Note that when supplying a
+sequence of scalar int values that is not in descending order, it will be sorted automatically,
+unless strict_period_order=False.</p>
+</dd>
+<dt>strict_period_order: See period for further information. Defaults to True, i.e. periods will</dt><dd><p>automatically be sorted in descending order, if they were not supplied in this order.</p>
+</dd>
+<dt>For all other arguments, please see the docstrings for</dt><dd><ul class="simple">
+<li><p>VariationalUnit (in ftw.tf.networks.recurrence) and</p></li>
+<li><p>MultivariateNormalDiagLocScaleHead (in ftw.tf.networks.distributional).</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.RPTH.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTH.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs an initial state for this core.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_size: An int or an integral scalar tensor representing batch size.
+<a href="#id4"><span class="problematic" id="id5">**</span></a>kwargs: Optional keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Arbitrarily nested initial state for this core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="convenience-wrapper-for-rpth-module">
+<h3><code class="docutils literal notranslate"><span class="pre">Convenience</span> <span class="pre">Wrapper</span> <span class="pre">for</span> <span class="pre">RPTH</span> <span class="pre">Module</span></code><a class="headerlink" href="#convenience-wrapper-for-rpth-module" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="id0">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">RPTH</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>Recurrent processing with temporal hierarchy module, as introduced by the FTW paper.</p>
+<p>This module consists of 2 or more Variational Units,
+where one Variational Unit updates its hidden state every step and is responsible for the posterior distribution,
+and the other Variational Unit updates its hidden state only if step % period = 0 and is responsible for the
+prior distribution.
+Optionally, a DNC MemoryAccess module can be supplied as a constructor argument, which will be shared by all cores,
+i.e. all cores write to and read from the same memory, and memory weights are shared among all cores.</p>
+<p>Warning: Please note that while support for more than 2 cores is implemented, it is not tested yet and is thus
+highly discouraged. Please proceed with care if you wish to use this feature.</p>
+<dl class="py method">
+<dt id="id6">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">period</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>Sequence<span class="p">[</span>int<span class="p">]</span><span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">, </span>Sequence<span class="p">[</span>tensorflow.python.ops.variables.Variable<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">hidden_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">num_dimensions</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">dnc_clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_dnc_linear_projection</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">init_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">min_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">tanh_mean</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fixed_scale</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_tfd_independent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">w_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">b_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shared_memory</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="ftw.tf.networks.dnc.html#ftw.tf.networks.dnc.access.MemoryAccess" title="ftw.tf.networks.dnc.access.MemoryAccess">ftw.tf.networks.dnc.access.MemoryAccess</a><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strict_period_order</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">scale_gradients_fast_to_slow</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Sequence<span class="p">[</span>float<span class="p">]</span><span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">, </span>Sequence<span class="p">[</span>tensorflow.python.ops.variables.Variable<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'rpth'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id6" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the RPTH module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>period: Periodically update the recurrent core(s) every period steps. If period is a</dt><dd><p>scalar int value, only one slow core will be used. If period is a sequence of scalar int values,
+multiple slow cores, each with the given period, will be used. Note that when supplying a
+sequence of scalar int values that is not in descending order, it will be sorted automatically,
+unless strict_period_order=False.</p>
+</dd>
+<dt>strict_period_order: See period for further information. Defaults to True, i.e. periods will</dt><dd><p>automatically be sorted in descending order, if they were not supplied in this order.</p>
+</dd>
+<dt>For all other arguments, please see the docstrings for</dt><dd><ul class="simple">
+<li><p>VariationalUnit (in ftw.tf.networks.recurrence) and</p></li>
+<li><p>MultivariateNormalDiagLocScaleHead (in ftw.tf.networks.distributional).</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="id7">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#id7" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs an initial state for this core.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_size: An int or an integral scalar tensor representing batch size.
+<a href="#id8"><span class="problematic" id="id9">**</span></a>kwargs: Optional keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Arbitrarily nested initial state for this core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="named-tuples-for-recurrent-outputs-and-states">
+<h3><code class="docutils literal notranslate"><span class="pre">Named</span> <span class="pre">Tuples</span> <span class="pre">for</span> <span class="pre">Recurrent</span> <span class="pre">Outputs</span> <span class="pre">and</span> <span class="pre">States</span></code><a class="headerlink" href="#named-tuples-for-recurrent-outputs-and-states" title="Permalink to this headline">¶</a></h3>
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.LocScaleDistributionParameters">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">LocScaleDistributionParameters</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loc</span></em>, <em class="sig-param"><span class="n">scale</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.LocScaleDistributionParameters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.LocScaleDistributionParameters.loc">
+<em class="property">property </em><code class="sig-name descname">loc</code><a class="headerlink" href="#ftw.tf.networks.recurrence.LocScaleDistributionParameters.loc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.LocScaleDistributionParameters.scale">
+<em class="property">property </em><code class="sig-name descname">scale</code><a class="headerlink" href="#ftw.tf.networks.recurrence.LocScaleDistributionParameters.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.PeriodicRNNState">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">PeriodicRNNState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">core_state</span></em>, <em class="sig-param"><span class="n">output</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.PeriodicRNNState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.PeriodicRNNState.core_state">
+<em class="property">property </em><code class="sig-name descname">core_state</code><a class="headerlink" href="#ftw.tf.networks.recurrence.PeriodicRNNState.core_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.PeriodicRNNState.output">
+<em class="property">property </em><code class="sig-name descname">output</code><a class="headerlink" href="#ftw.tf.networks.recurrence.PeriodicRNNState.output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.PeriodicRNNState.step">
+<em class="property">property </em><code class="sig-name descname">step</code><a class="headerlink" href="#ftw.tf.networks.recurrence.PeriodicRNNState.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.RPTHState">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">RPTHState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">z</span></em>, <em class="sig-param"><span class="n">core_state</span></em>, <em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTHState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.RPTHState.core_state">
+<em class="property">property </em><code class="sig-name descname">core_state</code><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTHState.core_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.RPTHState.step">
+<em class="property">property </em><code class="sig-name descname">step</code><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTHState.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.RPTHState.z">
+<em class="property">property </em><code class="sig-name descname">z</code><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTHState.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.tf.networks.recurrence.RPTHOutput">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.recurrence.</code><code class="sig-name descname">RPTHOutput</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">z</span></em>, <em class="sig-param"><span class="n">distribution_params</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTHOutput" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.RPTHOutput.distribution_params">
+<em class="property">property </em><code class="sig-name descname">distribution_params</code><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTHOutput.distribution_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.recurrence.RPTHOutput.z">
+<em class="property">property </em><code class="sig-name descname">z</code><a class="headerlink" href="#ftw.tf.networks.recurrence.RPTHOutput.z" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="vision-visual-embedding-modules">
+<h2>Vision (Visual Embedding) Modules<a class="headerlink" href="#vision-visual-embedding-modules" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.networks.vision.FtwTorso">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.vision.</code><code class="sig-name descname">FtwTorso</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.vision.FtwTorso" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Visual embedding module as used in the FTW paper.</p>
+<p>See also the FTW paper for more information, especially Figure S11 of the supplementary material.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.vision.FtwTorso.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param">conv_filters: Sequence[Tuple[int</em>, <em class="sig-param">int</em>, <em class="sig-param">int]] = ((32</em>, <em class="sig-param">8</em>, <em class="sig-param">4)</em>, <em class="sig-param">(64</em>, <em class="sig-param">4</em>, <em class="sig-param">2))</em>, <em class="sig-param">residual_filters: Sequence[Tuple[int</em>, <em class="sig-param">int</em>, <em class="sig-param">int]] = ((64</em>, <em class="sig-param">3</em>, <em class="sig-param">1)</em>, <em class="sig-param">(64</em>, <em class="sig-param">3</em>, <em class="sig-param">1))</em>, <em class="sig-param">hidden_size: int = 256</em>, <em class="sig-param">activation: Callable[tensorflow.python.framework.ops.Tensor</em>, <em class="sig-param">tensorflow.python.framework.ops.Tensor] = &lt;function relu&gt;</em>, <em class="sig-param">activate_last: bool = False</em>, <em class="sig-param">name: str = 'ftw_torso'</em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.vision.FtwTorso.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the FtwTorso module.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>conv_filters: Sequence of int triples (num_channels, kernel_size, stride) indicating the number of</dt><dd><p>channels, the kernel size (also called filter size) and stride for each (non-residual) convolutional
+layer in the sequence.</p>
+</dd>
+<dt>residual_filters: Sequence of int triples (num_channels, kernel_size, stride) indicating the number of</dt><dd><p>channels, the kernel size (also called filter size) and stride for each residual convolutional
+layer in the sequence.</p>
+</dd>
+</dl>
+<p>hidden_size: Size of the final output layer.
+activation: Activation function to be used between layers.
+activate_last: Whether or not to pass the output of the final layer through the activation function given</p>
+<blockquote>
+<div><p>by activation.</p>
+</div></blockquote>
+<p>name: Name for the module.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If shapes and/or types of constructor arguments do not match expected shapes and types.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ftw.tf.networks.dnc.html" class="btn btn-neutral float-right" title="DNC Memory Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Documentation for For The Win (FTW) Agent implementation." accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Johannes Tochtermann
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Hyperparameters &mdash; ftw 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Internal Rewards" href="ftw.tf.internal_reward.html" />
+    <link rel="prev" title="Reverb Replay Datasets for TensorFlow" href="ftw.datasets.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ftw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.networks.html">TensorFlow Modules &amp; Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html">For The Win (FTW) TensorFlow Agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html#module-ftw.agents.tf.ftw.utils">Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.adders.html">Reverb Adders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.datasets.html">Reverb Replay Datasets for TensorFlow</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Hyperparameters</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#abstract-hyperparameter-class"><code class="docutils literal notranslate"><span class="pre">Abstract</span> <span class="pre">Hyperparameter</span> <span class="pre">Class</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#float-hyperparameter"><code class="docutils literal notranslate"><span class="pre">Float</span> <span class="pre">Hyperparameter</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#categorical-integer-hyperparameter"><code class="docutils literal notranslate"><span class="pre">Categorical</span> <span class="pre">Integer</span> <span class="pre">Hyperparameter</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.internal_reward.html">Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.wrappers.html">Environment Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ftw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Hyperparameters</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ftw.tf.hyperparameters.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="hyperparameters">
+<h1>Hyperparameters<a class="headerlink" href="#hyperparameters" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="abstract-hyperparameter-class">
+<h2><code class="docutils literal notranslate"><span class="pre">Abstract</span> <span class="pre">Hyperparameter</span> <span class="pre">Class</span></code><a class="headerlink" href="#abstract-hyperparameter-class" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.hyperparameters.base.Hyperparameter">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.hyperparameters.base.</code><code class="sig-name descname">Hyperparameter</code><a class="headerlink" href="#ftw.tf.hyperparameters.base.Hyperparameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Metaclass that describes an API for hyperparameters.</p>
+<dl class="simple">
+<dt>Has one private attribute:</dt><dd><ul class="simple">
+<li><p>_name: Name of the Hyperparameter.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Offers the following public methods,
+which must be implemented by classes inheriting from Hyperparameter:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>get(): returns the value of the hyperparameter</p></li>
+<li><p>set(value): sets the value of the hyperparameter</p></li>
+<li><p>perturb(): perturbs the value of the hyperparameter.</p></li>
+</ul>
+</div></blockquote>
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.base.Hyperparameter.get">
+<em class="property">abstract </em><code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.base.Hyperparameter.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the hyperparameter variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.base.Hyperparameter.perturb">
+<em class="property">abstract </em><code class="sig-name descname">perturb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.base.Hyperparameter.perturb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perturbs/Mutates the value of the hyperparameter variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.base.Hyperparameter.set">
+<em class="property">abstract </em><code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.base.Hyperparameter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of the hyperparameter variable.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="float-hyperparameter">
+<h2><code class="docutils literal notranslate"><span class="pre">Float</span> <span class="pre">Hyperparameter</span></code><a class="headerlink" href="#float-hyperparameter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.hyperparameters.ftw_hp.</code><code class="sig-name descname">FloatHyperparameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">init_value_or_range</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">perturb_probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">perturb_max_pct_change</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">tf.float32</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'float_hyperparameter'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ftw.tf.hyperparameters.base.Hyperparameter" title="ftw.tf.hyperparameters.base.Hyperparameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ftw.tf.hyperparameters.base.Hyperparameter</span></code></a></p>
+<p>Hyperparameter with a scalar float value.</p>
+<p>Can be initialized either with a concrete scalar value or a
+tuple (min, max) indicating a range from which to draw a random sample.
+More specifically, the sample is drawn from a log-uniform distribution
+defined over this range.</p>
+<p>Contains a tf.Variable that stores the hyperparameter value. Consequently,
+this module is well suited to be used as a hyperparameter variable inside a tf.function, e.g.
+in population-based training.</p>
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">init_value_or_range</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">perturb_probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">perturb_max_pct_change</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.2</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">tf.float32</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'float_hyperparameter'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>init_value_or_range: A scalar value of type int for initialization with an exact value,</dt><dd><p>or a tuple (min, max), where min, max are of type int for initialization by drawing
+a sample from a log-uniform distribution defined over (min, max).</p>
+</dd>
+<dt>perturb_probability: The probability of actually perturbing the hyperparameter value</dt><dd><p>when calling perturb(). Must be a float value with 0 &lt;= value &lt;= 1..</p>
+</dd>
+<dt>perturb_max_pct_change: Maximum allowed change of the hyperparameter value in percent,</dt><dd><p>when calling perturb() and if perturb() actually perturbs the value
+(see perturb_probability). Resulting change lies in the range of
+(-perturb_max_pct_change, perturb_max_pct_change).
+Must be a float value &gt; 0.</p>
+</dd>
+<dt>dtype: tf.dtype used by the tf.Variable that holds the hyperparameter value.</dt><dd><p>Defaults to tf.float32.</p>
+</dd>
+</dl>
+<p>name: Name for this FloatHyperparameter instance. Defaults to ‘float_hyperparameter’.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the hyperparameter variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.perturb">
+<code class="sig-name descname">perturb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.perturb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perturbs/mutates the value of the hyperparameter variable with perturb_probability.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">float</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of the hyperparameter variable.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>value: Value of type float or numpy float.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.variable">
+<em class="property">property </em><code class="sig-name descname">variable</code><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.FloatHyperparameter.variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the tf.Variable that holds the hyperparameter value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="categorical-integer-hyperparameter">
+<h2><code class="docutils literal notranslate"><span class="pre">Categorical</span> <span class="pre">Integer</span> <span class="pre">Hyperparameter</span></code><a class="headerlink" href="#categorical-integer-hyperparameter" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.hyperparameters.ftw_hp.IntHyperparameter">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.hyperparameters.ftw_hp.</code><code class="sig-name descname">IntHyperparameter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_value</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">initial_value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">perturb_probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">tf.float32</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'int_hyperparameter'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.IntHyperparameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ftw.tf.hyperparameters.base.Hyperparameter" title="ftw.tf.hyperparameters.base.Hyperparameter"><code class="xref py py-class docutils literal notranslate"><span class="pre">ftw.tf.hyperparameters.base.Hyperparameter</span></code></a></p>
+<p>Hyperparameter with an int value.</p>
+<dl class="simple">
+<dt>Supported initialization and perturbation behaviour of hyperparameter variable:</dt><dd><ul class="simple">
+<li><p>Supplying min_value and max_value parameters, but no initial_value parameter results in:
+Initialization by drawing a random sample from a categorical distribution
+defined over the range [min_value, …, max_value].
+Perturbation by drawing from the same distribution.</p></li>
+<li><p>Supplying min_value, max_value and initial_value parameters results in:
+Initialization with initial_value.
+Perturbation by drawing a random sample from a categorical distribution
+defined over the range [min_value, …, max_value].</p></li>
+</ul>
+</dd>
+</dl>
+<p>Contains a tf.Variable that stores the hyperparameter value. Consequently,
+this module is well suited to be used as a hyperparameter variable inside a tf.function, e.g.
+in population-based training.</p>
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_value</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">initial_value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">perturb_probability</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">tf.float32</span></em>, <em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'int_hyperparameter'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>min_value: Inclusive lower limit of the range used for random initialization (if no init_value is supplied)</dt><dd><p>and perturbation sampling. Python int or numpy int expected.</p>
+</dd>
+<dt>max_value: Inclusive upper limit of the range used for random initialization (if no init_value is supplied)</dt><dd><p>and perturbation sampling. Python int or numpy int expected.</p>
+</dd>
+<dt>initial_value: Optional. If given, hyperparameter will be initialized with this value</dt><dd><p>instead of being randomly initialized from the range defined by (min_value, max_value).
+Python int or numpy int expected.</p>
+</dd>
+<dt>perturb_probability: The probability of actually perturbing the hyperparameter value</dt><dd><p>when calling perturb(). Must be a float value with 0 &lt;= value &lt;= 1.</p>
+</dd>
+<dt>dtype: tf.dtype used by the tf.Variable that holds the hyperparameter value.</dt><dd><p>Defaults to tf.float32, even though the hyperparameter is an int,
+since this is often more compatible with common neural network models.</p>
+</dd>
+</dl>
+<p>name: Name for this IntHyperparameter instance. Defaults to ‘int_hyperparameter’.</p>
+</dd>
+<dt>Raises:</dt><dd><p>ValueError: If invalid constructor arguments were passed.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the value of the hyperparameter variable.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.perturb">
+<code class="sig-name descname">perturb</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.perturb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perturbs/mutates the value of the hyperparameter variable with perturb_probability.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.set">
+<code class="sig-name descname">set</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the value of the hyperparameter variable.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>value: Value of type int or numpy.int.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.variable">
+<em class="property">property </em><code class="sig-name descname">variable</code><a class="headerlink" href="#ftw.tf.hyperparameters.ftw_hp.IntHyperparameter.variable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the tf.Variable that holds the hyperparameter value.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ftw.tf.internal_reward.html" class="btn btn-neutral float-right" title="Internal Rewards" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ftw.datasets.html" class="btn btn-neutral float-left" title="Reverb Replay Datasets for TensorFlow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Johannes Tochtermann
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

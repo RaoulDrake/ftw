@@ -1,0 +1,361 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Reverb Replay Datasets for TensorFlow &mdash; ftw 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Hyperparameters" href="ftw.tf.hyperparameters.html" />
+    <link rel="prev" title="Reverb Adders" href="ftw.adders.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ftw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.networks.html">TensorFlow Modules &amp; Networks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html">For The Win (FTW) TensorFlow Agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html#module-ftw.agents.tf.ftw.utils">Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.adders.html">Reverb Adders</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reverb Replay Datasets for TensorFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.hyperparameters.html">Hyperparameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.internal_reward.html">Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.wrappers.html">Environment Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ftw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Reverb Replay Datasets for TensorFlow</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ftw.datasets.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ftw.datasets.reverb">
+<span id="reverb-replay-datasets-for-tensorflow"></span><h1>Reverb Replay Datasets for TensorFlow<a class="headerlink" href="#module-ftw.datasets.reverb" title="Permalink to this headline">¶</a></h1>
+<p>Functions for making TensorFlow datasets for sampling from Reverb replay.</p>
+<p>The functions implemented by this module closely resemble
+acme.datasets.make_reverb_dataset(). Thus, most of the code and docstrings
+was copied from this function.</p>
+<p>However, make_reverb_fifo_sampler_dataset ensures that there is only one worker
+per iterator for the ReplayDataset, since this might be of importance for agents
+using a queue, where the order of elements drawn from the dataset is relevant.</p>
+<p>Furthermore, make_reverb_rnn_sequence_fifo_sampler_dataset implements a dataset
+for usage in recurrent agents that perform training on unrolled sequences but
+only require the first recurrent state of the sequence. Consequently, this
+function configures the dataset in such a way that sequences only include the
+first recurrent state of a sequence, potentially saving a considerable amount of
+RAM, especially with recurrent cores that have large states, such as a DNC
+memory.</p>
+<dl class="simple">
+<dt>Edits made to the original script:</dt><dd><ul class="simple">
+<li><p>Added the first paragraph of the docstring for
+make_reverb_fifo_sampler_dataset()</p></li>
+<li><p>Added the first paragraph of the docstring for
+make_reverb_rnn_sequence_fifo_sampler_dataset()</p></li>
+<li><p>Setting the default value of argument num_parallel_calls to 1,
+to save computational resources (threads).</p></li>
+<li><p>Passing num_workers_per_iterator=1 to the ReplayDataset constructor in
+both functions implemented by this module, to ensure compatability with
+agents using a queue.</p></li>
+<li><p>Exposing the deterministic argument of tf.dataset.interleave() as an
+argument to both functions implemented by this module, and setting its
+default value to True. Setting this to False may improve performance
+at the cost of determinism.</p></li>
+<li><p>Passing sequence_length=None and emit_timesteps=True to the construction
+of the ReplayDataset in make_reverb_rnn_sequence_fifo_sampler_dataset(),
+as well as manipulating the shape of core_state spec, so sequences
+contain only the first core_state of a sequence.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py function">
+<dt id="ftw.datasets.reverb.make_reverb_fifo_sampler_dataset">
+<code class="sig-prename descclassname">ftw.datasets.reverb.</code><code class="sig-name descname">make_reverb_fifo_sampler_dataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.tf_client.TFClient</span></em>, <em class="sig-param"><span class="n">environment_spec</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>acme.specs.EnvironmentSpec<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefetch_size</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">extra_spec</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dm_env.specs.Array<span class="p">, </span>Iterable<span class="p">[</span>NestedSpec<span class="p">]</span><span class="p">, </span>Mapping<span class="p">[</span>Any<span class="p">, </span>NestedSpec<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">transition_adder</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'priority_table'</span></em>, <em class="sig-param"><span class="n">convert_zero_size_to_none</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">num_parallel_calls</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">using_deprecated_adder</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">deterministic</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; tensorflow.python.data.ops.dataset_ops.DatasetV2<a class="headerlink" href="#ftw.datasets.reverb.make_reverb_fifo_sampler_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a TensorFlow dataset.</p>
+<p>Ensures that there is only one worker per iterator for the ReplayDataset,
+since this might be of importance for agents using a queue,
+where the order of elements drawn from the dataset is relevant.</p>
+<p>We need to explicitly specify up-front the shapes and dtypes of all the
+Tensors that will be drawn from the dataset. We require that the action and
+observation specs are given. The reward and discount specs use reasonable
+defaults if not given. We can also specify a boolean <cite>transition_adder</cite> which
+if true will specify the spec as transitions rather than timesteps (i.e. they
+have a trailing state). Additionally an <cite>extra_spec</cite> parameter can be given
+which specifies “extra data”.</p>
+<dl>
+<dt>Args:</dt><dd><p>client: A TFClient (or list of TFClients) for talking to a replay server.
+environment_spec: The environment’s spec.
+batch_size: Optional. If specified the dataset returned will combine</p>
+<blockquote>
+<div><p>consecutive elements into batches. This argument is also used to determine
+the cycle_length for <cite>tf.data.Dataset.interleave</cite> – if unspecified the
+cycle length is set to <cite>tf.data.experimental.AUTOTUNE</cite>.</p>
+</div></blockquote>
+<p>prefetch_size: How many batches to prefectch in the pipeline.
+sequence_length: Optional. If specified consecutive elements of each</p>
+<blockquote>
+<div><p>interleaved dataset will be combined into sequences.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>extra_spec: Optional. A possibly nested structure of specs for extras. Note</dt><dd><p>that whether or not this is present changes the format of the data.</p>
+</dd>
+<dt>transition_adder: Optional, defaults to False; whether the adder used with</dt><dd><p>this dataset adds transitions.</p>
+</dd>
+<dt>table: The name of the table to sample from replay (defaults to</dt><dd><p><cite>adders.DEFAULT_PRIORITY_TABLE</cite>).</p>
+</dd>
+<dt>convert_zero_size_to_none: When True this will convert specs with shapes 0</dt><dd><p>to None. This is useful for datasets that contain elements with different
+shapes for example <cite>GraphsTuple</cite> from the graph_net library. For example,
+<cite>specs.Array((0, 5), tf.float32)</cite> will correspond to a examples with shape
+<cite>tf.TensorShape([None, 5])</cite>.</p>
+</dd>
+<dt>num_parallel_calls: Number of parallel threads creating ReplayDatasets to</dt><dd><p>interleave.</p>
+</dd>
+<dt>using_deprecated_adder: True if the adder used to generate the data is</dt><dd><p>from acme/adders/reverb/deprecated.</p>
+</dd>
+</dl>
+<p>deterministic: Whether to use deterministic interleaving of dataset.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A tf.data.Dataset that streams data from the replay server.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.datasets.reverb.make_reverb_rnn_sequence_fifo_sampler_dataset">
+<code class="sig-prename descclassname">ftw.datasets.reverb.</code><code class="sig-name descname">make_reverb_rnn_sequence_fifo_sampler_dataset</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">client</span><span class="p">:</span> <span class="n">reverb.tf_client.TFClient</span></em>, <em class="sig-param"><span class="n">environment_spec</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>acme.specs.EnvironmentSpec<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefetch_size</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">extra_spec</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>dm_env.specs.Array<span class="p">, </span>Iterable<span class="p">[</span>NestedSpec<span class="p">]</span><span class="p">, </span>Mapping<span class="p">[</span>Any<span class="p">, </span>NestedSpec<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">transition_adder</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">table</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'priority_table'</span></em>, <em class="sig-param"><span class="n">convert_zero_size_to_none</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">num_parallel_calls</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">using_deprecated_adder</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">deterministic</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; tensorflow.python.data.ops.dataset_ops.DatasetV2<a class="headerlink" href="#ftw.datasets.reverb.make_reverb_rnn_sequence_fifo_sampler_dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a TensorFlow dataset.</p>
+<p>Implements a dataset for usage in recurrent agents that do training on
+unrolled sequences but only require the first recurrent state of the sequence.
+Consequently, this function configures the dataset in such a way that sequences
+only include the first recurrent state of the sequence, saving quite a lot of RAM,
+especially with recurrent cores that have large states, such as a DNC memory.</p>
+<p>We need to explicitly specify up-front the shapes and dtypes of all the
+Tensors that will be drawn from the dataset. We require that the action and
+observation specs are given. The reward and discount specs use reasonable
+defaults if not given. We can also specify a boolean <cite>transition_adder</cite> which
+if true will specify the spec as transitions rather than timesteps (i.e. they
+have a trailing state). Additionally an <cite>extra_spec</cite> parameter can be given
+which specifies “extra data”.</p>
+<dl>
+<dt>Args:</dt><dd><p>client: A TFClient (or list of TFClients) for talking to a replay server.
+environment_spec: The environment’s spec.
+batch_size: Optional. If specified the dataset returned will combine</p>
+<blockquote>
+<div><p>consecutive elements into batches. This argument is also used to determine
+the cycle_length for <cite>tf.data.Dataset.interleave</cite> – if unspecified the
+cycle length is set to <cite>tf.data.experimental.AUTOTUNE</cite>.</p>
+</div></blockquote>
+<p>prefetch_size: How many batches to prefectch in the pipeline.
+sequence_length: Optional. If specified consecutive elements of each</p>
+<blockquote>
+<div><p>interleaved dataset will be combined into sequences.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>extra_spec: Optional. A possibly nested structure of specs for extras. Note</dt><dd><p>that whether or not this is present changes the format of the data.</p>
+</dd>
+<dt>transition_adder: Optional, defaults to False; whether the adder used with</dt><dd><p>this dataset adds transitions.</p>
+</dd>
+<dt>table: The name of the table to sample from replay (defaults to</dt><dd><p><cite>adders.DEFAULT_PRIORITY_TABLE</cite>).</p>
+</dd>
+<dt>convert_zero_size_to_none: When True this will convert specs with shapes 0</dt><dd><p>to None. This is useful for datasets that contain elements with different
+shapes for example <cite>GraphsTuple</cite> from the graph_net library. For example,
+<cite>specs.Array((0, 5), tf.float32)</cite> will correspond to a examples with shape
+<cite>tf.TensorShape([None, 5])</cite>.</p>
+</dd>
+<dt>num_parallel_calls: Number of parallel threads creating ReplayDatasets to</dt><dd><p>interleave.</p>
+</dd>
+<dt>using_deprecated_adder: True if the adder used to generate the data is</dt><dd><p>from acme/adders/reverb/deprecated.</p>
+</dd>
+</dl>
+<p>deterministic: Whether to use deterministic interleaving of dataset.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A tf.data.Dataset that streams data from the replay server.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ftw.tf.hyperparameters.html" class="btn btn-neutral float-right" title="Hyperparameters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ftw.adders.html" class="btn btn-neutral float-left" title="Reverb Adders" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Johannes Tochtermann
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

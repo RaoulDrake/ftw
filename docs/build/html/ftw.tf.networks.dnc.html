@@ -1,0 +1,565 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DNC Memory Modules &mdash; ftw 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="For The Win (FTW) TensorFlow Agent" href="ftw.agents.tf.ftw.html" />
+    <link rel="prev" title="TensorFlow Modules &amp; Networks" href="ftw.tf.networks.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ftw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="ftw.tf.networks.html">TensorFlow Modules &amp; Networks</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="ftw.tf.networks.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">DNC Memory Modules</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#dnc-module"><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#dnc-state-namedtuple"><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">State</span> <span class="pre">NamedTuple</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-access-module"><code class="docutils literal notranslate"><span class="pre">Memory</span> <span class="pre">Access</span> <span class="pre">Module</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#memory-access-state-namedtuple"><code class="docutils literal notranslate"><span class="pre">Memory</span> <span class="pre">Access</span> <span class="pre">State</span> <span class="pre">NamedTuple</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.html#auxiliary-task-modules-networks">Auxiliary Task Modules &amp; Networks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.html#distributional-modules">Distributional modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.html#embedding-modules">Embedding Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.html#module-ftw.tf.networks.ftw_network">For The Win (FTW) Network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.html#policy-value-head-module">Policy Value Head Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.html#recurrent-core-modules">Recurrent Core Modules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ftw.tf.networks.html#vision-visual-embedding-modules">Vision (Visual Embedding) Modules</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html">For The Win (FTW) TensorFlow Agent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.agents.tf.ftw.html#module-ftw.agents.tf.ftw.utils">Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.adders.html">Reverb Adders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.datasets.html">Reverb Replay Datasets for TensorFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.hyperparameters.html">Hyperparameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.internal_reward.html">Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.wrappers.html">Environment Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ftw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="ftw.tf.networks.html">TensorFlow Modules &amp; Networks</a> &raquo;</li>
+        
+      <li>DNC Memory Modules</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ftw.tf.networks.dnc.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dnc-memory-modules">
+<h1>DNC Memory Modules<a class="headerlink" href="#dnc-memory-modules" title="Permalink to this headline">¶</a></h1>
+<p>This is a conversion of <a class="reference external" href="https://github.com/deepmind/dnc">https://github.com/deepmind/dnc</a> to TensorFlow v2.x.</p>
+<div class="section" id="dnc-module">
+<h2><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">Module</span></code><a class="headerlink" href="#dnc-module" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.dnc.DNC">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.dnc.</code><code class="sig-name descname">DNC</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>DNC core module.</p>
+<p>Contains controller and memory access module.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.dnc.DNC.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">access_config</span></em>, <em class="sig-param"><span class="n">controller_config</span></em>, <em class="sig-param"><span class="n">output_size</span></em>, <em class="sig-param"><span class="n">clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'dnc'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initializes the DNC core.</p>
+<dl>
+<dt>Args:</dt><dd><p>access_config: dictionary of access module configurations.
+controller_config: dictionary of controller (LSTM) module configurations.
+output_size: output dimension size of core.
+clip_value: clips controller and core output values to between</p>
+<blockquote>
+<div><p><cite>[-clip_value, clip_value]</cite> if specified.</p>
+</div></blockquote>
+<p>name: module name (default ‘dnc’).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.dnc.DNC.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNC.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs an initial state for this core.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_size: An int or an integral scalar tensor representing batch size.
+<a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs: Optional keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Arbitrarily nested initial state for this core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.dnc.DNC.output_size">
+<em class="property">property </em><code class="sig-name descname">output_size</code><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNC.output_size" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="dnc-state-namedtuple">
+<h2><code class="docutils literal notranslate"><span class="pre">DNC</span> <span class="pre">State</span> <span class="pre">NamedTuple</span></code><a class="headerlink" href="#dnc-state-namedtuple" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.dnc.DNCState">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.dnc.</code><code class="sig-name descname">DNCState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">access_output</span></em>, <em class="sig-param"><span class="n">access_state</span></em>, <em class="sig-param"><span class="n">controller_state</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNCState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.dnc.DNCState.access_output">
+<em class="property">property </em><code class="sig-name descname">access_output</code><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNCState.access_output" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.dnc.DNCState.access_state">
+<em class="property">property </em><code class="sig-name descname">access_state</code><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNCState.access_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.dnc.DNCState.controller_state">
+<em class="property">property </em><code class="sig-name descname">controller_state</code><a class="headerlink" href="#ftw.tf.networks.dnc.dnc.DNCState.controller_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="memory-access-module">
+<h2><code class="docutils literal notranslate"><span class="pre">Memory</span> <span class="pre">Access</span> <span class="pre">Module</span></code><a class="headerlink" href="#memory-access-module" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.access.MemoryAccess">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.access.</code><code class="sig-name descname">MemoryAccess</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.access.MemoryAccess" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>Access module of the Differentiable Neural Computer.</p>
+<p>This memory module supports multiple read and write heads. It makes use of:</p>
+<ul class="simple">
+<li><p><cite>addressing.TemporalLinkage</cite> to track the temporal ordering of writes in
+memory for each write head.</p></li>
+<li><p><cite>addressing.FreenessAllocator</cite> for keeping track of memory usage, where
+usage increase when a memory location is written to, and decreases when
+memory is read from that the controller says can be freed.</p></li>
+</ul>
+<p>Write-address selection is done by an interpolation between content-based
+lookup and using unused memory.</p>
+<p>Read-address selection is done by an interpolation of content-based lookup
+and following the link graph in the forward or backwards read direction.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.MemoryAccess.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">memory_size</span><span class="o">=</span><span class="default_value">128</span></em>, <em class="sig-param"><span class="n">word_size</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">num_reads</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">num_writes</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'memory_access'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.access.MemoryAccess.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a MemoryAccess module.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>memory_size: The number of memory slots (N in the DNC paper).
+word_size: The width of each memory slot (W in the DNC paper)
+num_reads: The number of read heads (R in the DNC paper).
+num_writes: The number of write heads (fixed at 1 in the paper).
+name: The name of the module.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.MemoryAccess.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.access.MemoryAccess.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs an initial state for this core.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_size: An int or an integral scalar tensor representing batch size.
+<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs: Optional keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Arbitrarily nested initial state for this core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.MemoryAccess.output_size">
+<em class="property">property </em><code class="sig-name descname">output_size</code><a class="headerlink" href="#ftw.tf.networks.dnc.access.MemoryAccess.output_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the output shape.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="memory-access-state-namedtuple">
+<h2><code class="docutils literal notranslate"><span class="pre">Memory</span> <span class="pre">Access</span> <span class="pre">State</span> <span class="pre">NamedTuple</span></code><a class="headerlink" href="#memory-access-state-namedtuple" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.access.AccessState">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.access.</code><code class="sig-name descname">AccessState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">memory</span></em>, <em class="sig-param"><span class="n">read_weights</span></em>, <em class="sig-param"><span class="n">write_weights</span></em>, <em class="sig-param"><span class="n">linkage</span></em>, <em class="sig-param"><span class="n">usage</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.access.AccessState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.AccessState.linkage">
+<em class="property">property </em><code class="sig-name descname">linkage</code><a class="headerlink" href="#ftw.tf.networks.dnc.access.AccessState.linkage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.AccessState.memory">
+<em class="property">property </em><code class="sig-name descname">memory</code><a class="headerlink" href="#ftw.tf.networks.dnc.access.AccessState.memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.AccessState.read_weights">
+<em class="property">property </em><code class="sig-name descname">read_weights</code><a class="headerlink" href="#ftw.tf.networks.dnc.access.AccessState.read_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.AccessState.usage">
+<em class="property">property </em><code class="sig-name descname">usage</code><a class="headerlink" href="#ftw.tf.networks.dnc.access.AccessState.usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.access.AccessState.write_weights">
+<em class="property">property </em><code class="sig-name descname">write_weights</code><a class="headerlink" href="#ftw.tf.networks.dnc.access.AccessState.write_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="section" id="module-ftw.tf.networks.dnc.addressing">
+<span id="addressing-module"></span><h3>Addressing module<a class="headerlink" href="#module-ftw.tf.networks.dnc.addressing" title="Permalink to this headline">¶</a></h3>
+<p>DNC addressing modules.</p>
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.addressing.CosineWeights">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.addressing.</code><code class="sig-name descname">CosineWeights</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.CosineWeights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.base.Module</span></code></p>
+<p>Cosine-weighted attention.</p>
+<p>Calculates the cosine similarity between a query and each word in memory, then
+applies a weighted softmax to return a sharp distribution.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.addressing.Freeness">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.addressing.</code><code class="sig-name descname">Freeness</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.Freeness" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>Memory usage that is increased by writing and decreased by reading.</p>
+<p>This module is a pseudo-RNNCore whose state is a tensor with values in
+the range [0, 1] indicating the usage of each of <cite>memory_size</cite> memory slots.</p>
+<p>The usage is:</p>
+<ul class="simple">
+<li><p>Increased by writing, where usage is increased towards 1 at the write
+addresses.</p></li>
+<li><p>Decreased by reading, where usage is decreased after reading from a
+location when free_gate is close to 1.</p></li>
+</ul>
+<p>The function <cite>write_allocation_weights</cite> can be invoked to get free locations
+to write to for a number of write heads.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.addressing.Freeness.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.Freeness.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs an initial state for this core.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_size: An int or an integral scalar tensor representing batch size.
+<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs: Optional keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Arbitrarily nested initial state for this core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.addressing.Freeness.write_allocation_weights">
+<code class="sig-name descname">write_allocation_weights</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">usage</span></em>, <em class="sig-param"><span class="n">write_gates</span></em>, <em class="sig-param"><span class="n">num_writes</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.Freeness.write_allocation_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates freeness-based locations for writing to.</p>
+<p>This finds unused memory by ranking the memory locations by usage, for each
+write head. (For more than one write head, we use a “simulated new usage”
+which takes into account the fact that the previous write head will increase
+the usage in that area of the memory.)</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>usage: A tensor of shape <cite>[batch_size, memory_size]</cite> representing</dt><dd><p>current memory usage.</p>
+</dd>
+<dt>write_gates: A tensor of shape <cite>[batch_size, num_writes]</cite> with values in</dt><dd><p>the range [0, 1] indicating how much each write head does writing
+based on the address returned here (and hence how much usage
+increases).</p>
+</dd>
+</dl>
+<p>num_writes: The number of write heads to calculate write weights for.</p>
+</dd>
+<dt>Returns:</dt><dd><dl class="simple">
+<dt>tensor of shape <cite>[batch_size, num_writes, memory_size]</cite> containing the</dt><dd><p>freeness-based write locations. Note that this isn’t scaled by
+<cite>write_gate</cite>; this scaling must be applied externally.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.addressing.TemporalLinkage">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.addressing.</code><code class="sig-name descname">TemporalLinkage</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.TemporalLinkage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sonnet.src.recurrent.RNNCore</span></code></p>
+<p>Keeps track of write order for forward and backward addressing.</p>
+<p>This is a pseudo-RNNCore module, whose state is a pair <cite>(link,
+precedence_weights)</cite>, where <cite>link</cite> is a (collection of) graphs for (possibly
+multiple) write heads (represented by a tensor with values in the range
+[0, 1]), and <cite>precedence_weights</cite> records the “previous write locations” used
+to build the link graphs.</p>
+<p>The function <cite>directional_read_weights</cite> computes addresses following the
+forward and backward directions in the link graphs.</p>
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.addressing.TemporalLinkage.directional_read_weights">
+<code class="sig-name descname">directional_read_weights</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">link</span></em>, <em class="sig-param"><span class="n">prev_read_weights</span></em>, <em class="sig-param"><span class="n">forward</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.TemporalLinkage.directional_read_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the forward or the backward read weights.</p>
+<p>For each read head (at a given address), there are <cite>num_writes</cite> link graphs
+to follow. Thus this function computes a read address for each of the
+<cite>num_reads * num_writes</cite> pairs of read and write heads.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>link: tensor of shape <a href="#id7"><span class="problematic" id="id8">`</span></a>[batch_size, num_writes, memory_size,</dt><dd><p>memory_size]` representing the link graphs L_t.</p>
+</dd>
+<dt>prev_read_weights: tensor of shape <a href="#id9"><span class="problematic" id="id10">`</span></a>[batch_size, num_reads,</dt><dd><p>memory_size]` containing the previous read weights w_{t-1}^r.</p>
+</dd>
+<dt>forward: Boolean indicating whether to follow the “future” direction in</dt><dd><p>the link graph (True) or the “past” direction (False).</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>tensor of shape <cite>[batch_size, num_reads, num_writes, memory_size]</cite></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.addressing.TemporalLinkage.initial_state">
+<code class="sig-name descname">initial_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">unused_kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.TemporalLinkage.initial_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructs an initial state for this core.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>batch_size: An int or an integral scalar tensor representing batch size.
+<a href="#id11"><span class="problematic" id="id12">**</span></a>kwargs: Optional keyword arguments.</p>
+</dd>
+<dt>Returns:</dt><dd><p>Arbitrarily nested initial state for this core.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="ftw.tf.networks.dnc.addressing.TemporalLinkageState">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.tf.networks.dnc.addressing.</code><code class="sig-name descname">TemporalLinkageState</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">link</span></em>, <em class="sig-param"><span class="n">precedence_weights</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.TemporalLinkageState" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.addressing.TemporalLinkageState.link">
+<em class="property">property </em><code class="sig-name descname">link</code><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.TemporalLinkageState.link" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.tf.networks.dnc.addressing.TemporalLinkageState.precedence_weights">
+<em class="property">property </em><code class="sig-name descname">precedence_weights</code><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.TemporalLinkageState.precedence_weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.tf.networks.dnc.addressing.weighted_softmax">
+<code class="sig-prename descclassname">ftw.tf.networks.dnc.addressing.</code><code class="sig-name descname">weighted_softmax</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">activations</span></em>, <em class="sig-param"><span class="n">strengths</span></em>, <em class="sig-param"><span class="n">strengths_op</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.tf.networks.dnc.addressing.weighted_softmax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns softmax over activations multiplied by positive strengths.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>activations: A tensor of shape <cite>[batch_size, num_heads, memory_size]</cite>, of</dt><dd><p>activations to be transformed. Softmax is taken over the last dimension.</p>
+</dd>
+<dt>strengths: A tensor of shape <cite>[batch_size, num_heads]</cite> containing strengths to</dt><dd><p>multiply by the activations prior to the softmax.</p>
+</dd>
+</dl>
+<p>strengths_op: An operation to transform strengths before softmax.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A tensor of same shape as <cite>activations</cite> with weighted softmax applied.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ftw.agents.tf.ftw.html" class="btn btn-neutral float-right" title="For The Win (FTW) TensorFlow Agent" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ftw.tf.networks.html" class="btn btn-neutral float-left" title="TensorFlow Modules &amp; Networks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Johannes Tochtermann
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

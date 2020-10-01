@@ -1,0 +1,549 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>For The Win (FTW) TensorFlow Agent &mdash; ftw 0.1.8 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Reverb Adders" href="ftw.adders.html" />
+    <link rel="prev" title="DNC Memory Modules" href="ftw.tf.networks.dnc.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> ftw
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.networks.html">TensorFlow Modules &amp; Networks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">For The Win (FTW) TensorFlow Agent</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#ftw-agent"><code class="docutils literal notranslate"><span class="pre">FTW</span> <span class="pre">Agent</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ftw-learner"><code class="docutils literal notranslate"><span class="pre">FTW</span> <span class="pre">Learner</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ftw-actor"><code class="docutils literal notranslate"><span class="pre">FTW</span> <span class="pre">Actor</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#module-ftw.agents.tf.ftw.utils">Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.adders.html">Reverb Adders</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.datasets.html">Reverb Replay Datasets for TensorFlow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.hyperparameters.html">Hyperparameters</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.tf.internal_reward.html">Internal Rewards</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ftw.wrappers.html">Environment Wrappers</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">ftw</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>For The Win (FTW) TensorFlow Agent</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/ftw.agents.tf.ftw.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="for-the-win-ftw-tensorflow-agent">
+<h1>For The Win (FTW) TensorFlow Agent<a class="headerlink" href="#for-the-win-ftw-tensorflow-agent" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="ftw-agent">
+<h2><code class="docutils literal notranslate"><span class="pre">FTW</span> <span class="pre">Agent</span></code><a class="headerlink" href="#ftw-agent" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.agents.tf.ftw.FTW">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.agents.tf.ftw.</code><code class="sig-name descname">FTW</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">environment_spec</span><span class="p">:</span> <span class="n">acme.specs.EnvironmentSpec</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">num_environment_events</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">embed</span><span class="p">:</span> <span class="n">sonnet.src.base.Module</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_queue_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">16</span></em>, <em class="sig-param"><span class="n">hidden_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">use_pixel_cotrol</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">use_reward_prediction</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">reward_prediction_sequence_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">reward_prediction_sequence_period</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">num_dimensions</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">dnc_clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_dnc_linear_projection</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">init_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">min_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">tanh_mean</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fixed_scale</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_tfd_independent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">variational_unit_w_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variational_unit_b_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strict_period_order</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">dnc_memory_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">450</span></em>, <em class="sig-param"><span class="n">dnc_word_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em>, <em class="sig-param"><span class="n">dnc_num_reads</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">4</span></em>, <em class="sig-param"><span class="n">core_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'rpth'</span></em>, <em class="sig-param"><span class="n">slow_core_period_min_max</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>int<span class="p">, </span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">5, 20</span></em>, <em class="sig-param"><span class="n">slow_core_period_init_value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1e-05, 0.005</span></em>, <em class="sig-param"><span class="n">entropy_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0005, 0.01</span></em>, <em class="sig-param"><span class="n">reward_prediction_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em>, <em class="sig-param"><span class="n">pixel_control_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.01, 0.1</span></em>, <em class="sig-param"><span class="n">kld_prior_fixed_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0001, 0.1</span></em>, <em class="sig-param"><span class="n">kld_prior_posterior_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.001, 1.0</span></em>, <em class="sig-param"><span class="n">scale_grads_fast_to_slow</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em>, <em class="sig-param"><span class="n">internal_rewards</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em>, <em class="sig-param"><span class="n">baseline_cost</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">discount</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.99</span></em>, <em class="sig-param"><span class="n">max_abs_reward</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_gradient_norm</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rms_prop_epsilon</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-05</span></em>, <em class="sig-param"><span class="n">learning_rate_decay_steps</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">uint_pixels_to_float</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">agent_id</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">counter</span><span class="p">:</span> <span class="n">acme.utils.counting.Counter</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">logger</span><span class="p">:</span> <span class="n">acme.utils.loggers.base.Logger</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FTW" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.core.Actor</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ftw.agents.tf.ftw.agent.FTWWithoutActor</span></code></p>
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FTW.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">environment_spec</span><span class="p">:</span> <span class="n">acme.specs.EnvironmentSpec</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">num_environment_events</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">embed</span><span class="p">:</span> <span class="n">sonnet.src.base.Module</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_queue_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">16</span></em>, <em class="sig-param"><span class="n">hidden_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">use_pixel_cotrol</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">use_reward_prediction</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">reward_prediction_sequence_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">reward_prediction_sequence_period</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">num_dimensions</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">256</span></em>, <em class="sig-param"><span class="n">dnc_clip_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_dnc_linear_projection</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">init_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">min_scale</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-06</span></em>, <em class="sig-param"><span class="n">tanh_mean</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">fixed_scale</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_tfd_independent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">variational_unit_w_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variational_unit_b_init</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>sonnet.src.initializers.Initializer<span class="p">, </span>tensorflow.python.keras.initializers.initializers_v2.Initializer<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strict_period_order</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">dnc_memory_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">450</span></em>, <em class="sig-param"><span class="n">dnc_word_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em>, <em class="sig-param"><span class="n">dnc_num_reads</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">4</span></em>, <em class="sig-param"><span class="n">core_type</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'rpth'</span></em>, <em class="sig-param"><span class="n">slow_core_period_min_max</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>int<span class="p">, </span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">5, 20</span></em>, <em class="sig-param"><span class="n">slow_core_period_init_value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1e-05, 0.005</span></em>, <em class="sig-param"><span class="n">entropy_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0005, 0.01</span></em>, <em class="sig-param"><span class="n">reward_prediction_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em>, <em class="sig-param"><span class="n">pixel_control_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.01, 0.1</span></em>, <em class="sig-param"><span class="n">kld_prior_fixed_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0001, 0.1</span></em>, <em class="sig-param"><span class="n">kld_prior_posterior_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.001, 1.0</span></em>, <em class="sig-param"><span class="n">scale_grads_fast_to_slow</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em>, <em class="sig-param"><span class="n">internal_rewards</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em>, <em class="sig-param"><span class="n">baseline_cost</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">discount</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.99</span></em>, <em class="sig-param"><span class="n">max_abs_reward</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_gradient_norm</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rms_prop_epsilon</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">1e-05</span></em>, <em class="sig-param"><span class="n">learning_rate_decay_steps</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">uint_pixels_to_float</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">agent_id</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">counter</span><span class="p">:</span> <span class="n">acme.utils.counting.Counter</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">logger</span><span class="p">:</span> <span class="n">acme.utils.loggers.base.Logger</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FTW.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FTW.observe">
+<code class="sig-name descname">observe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">action</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">next_timestep</span><span class="p">:</span> <span class="n">dm_env._environment.TimeStep</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FTW.observe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make an observation of timestep data from the environment.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>action: action taken in the environment.
+next_timestep: timestep produced by the environment given the action.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FTW.observe_first">
+<code class="sig-name descname">observe_first</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestep</span><span class="p">:</span> <span class="n">dm_env._environment.TimeStep</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FTW.observe_first" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a first observation from the environment.</p>
+<p>Note that this need not be an initial state, it is merely beginning the
+recording of a trajectory.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>timestep: first timestep.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FTW.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FTW.run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FTW.select_action">
+<code class="sig-name descname">select_action</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">observation</span><span class="p">:</span> <span class="n">numpy.ndarray</span></em><span class="sig-paren">)</span> &#x2192; int<a class="headerlink" href="#ftw.agents.tf.ftw.FTW.select_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Samples from the policy and returns an action.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FTW.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FTW.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform an update of the actor parameters from past observations.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ftw-learner">
+<h2><code class="docutils literal notranslate"><span class="pre">FTW</span> <span class="pre">Learner</span></code><a class="headerlink" href="#ftw-learner" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.agents.tf.ftw.FtwLearner">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.agents.tf.ftw.</code><code class="sig-name descname">FtwLearner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">policy_network</span><span class="p">:</span> <span class="n">sonnet.src.recurrent.RNNCore</span></em>, <em class="sig-param"><span class="n">dataset</span><span class="p">:</span> <span class="n">tensorflow.python.data.ops.dataset_ops.DatasetV2</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">slow_core_period</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">internal_rewards</span><span class="p">:</span> <span class="n">ftw.tf.internal_reward.ftw_internal_reward.InternalRewards</span></em>, <em class="sig-param"><span class="n">pixel_control_network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>sonnet.src.recurrent.RNNCore<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reward_prediction_network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>sonnet.src.base.Module<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pixel_control_dataset</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tensorflow.python.data.ops.dataset_ops.DatasetV2<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nonzero_reward_prediction_dataset</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tensorflow.python.data.ops.dataset_ops.DatasetV2<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">zero_reward_prediction_dataset</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tensorflow.python.data.ops.dataset_ops.DatasetV2<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">entropy_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">kld_prior_fixed_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">kld_prior_posterior_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">pixel_control_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">reward_prediction_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">baseline_cost</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">discount</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.99</span></em>, <em class="sig-param"><span class="n">max_abs_reward</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_gradient_norm</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rms_prop_epsilon</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">learning_rate_decay_steps</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">can_sample</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">can_sample_auxiliary</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">uint_pixels_to_float</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">learner_id</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">counter</span><span class="p">:</span> <span class="n">acme.utils.counting.Counter</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">logger</span><span class="p">:</span> <span class="n">acme.utils.loggers.base.Logger</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.core.Learner</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.tf.savers.TFSaveable</span></code></p>
+<p>Learner for an importance-weighted advantage actor-critic
+with auxiliary tasks and recurrent processing with temporal hierarchy.</p>
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">policy_network</span><span class="p">:</span> <span class="n">sonnet.src.recurrent.RNNCore</span></em>, <em class="sig-param"><span class="n">dataset</span><span class="p">:</span> <span class="n">tensorflow.python.data.ops.dataset_ops.DatasetV2</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">slow_core_period</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">internal_rewards</span><span class="p">:</span> <span class="n">ftw.tf.internal_reward.ftw_internal_reward.InternalRewards</span></em>, <em class="sig-param"><span class="n">pixel_control_network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>sonnet.src.recurrent.RNNCore<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reward_prediction_network</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>sonnet.src.base.Module<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pixel_control_dataset</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tensorflow.python.data.ops.dataset_ops.DatasetV2<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nonzero_reward_prediction_dataset</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tensorflow.python.data.ops.dataset_ops.DatasetV2<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">zero_reward_prediction_dataset</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>tensorflow.python.data.ops.dataset_ops.DatasetV2<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">entropy_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">kld_prior_fixed_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0001</span></em>, <em class="sig-param"><span class="n">kld_prior_posterior_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.001</span></em>, <em class="sig-param"><span class="n">pixel_control_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">reward_prediction_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">baseline_cost</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">discount</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>tensorflow.python.ops.variables.Variable<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.99</span></em>, <em class="sig-param"><span class="n">max_abs_reward</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_gradient_norm</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rms_prop_epsilon</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.01</span></em>, <em class="sig-param"><span class="n">learning_rate_decay_steps</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">can_sample</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">can_sample_auxiliary</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">uint_pixels_to_float</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">learner_id</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">0</span></em>, <em class="sig-param"><span class="n">counter</span><span class="p">:</span> <span class="n">acme.utils.counting.Counter</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">logger</span><span class="p">:</span> <span class="n">acme.utils.loggers.base.Logger</span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.get_step">
+<code class="sig-name descname">get_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.get_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.get_variables">
+<code class="sig-name descname">get_variables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>List<span class="p">[</span>numpy.ndarray<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.get_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the named variables as a collection of (nested) numpy arrays.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>names: args where each name is a string identifying a predefined subset of</dt><dd><p>the variables.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>A list of (nested) numpy arrays <cite>variables</cite> such that <cite>variables[i]</cite>
+corresponds to the collection named by <cite>names[i]</cite>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.get_weights">
+<code class="sig-name descname">get_weights</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Mapping<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>tensorflow.python.ops.variables.Variable<span class="p">]</span><span class="p">]</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.get_weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.run">
+<code class="sig-name descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run the update loop; typically an infinite loop which calls step.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.set_step">
+<code class="sig-name descname">set_step</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.set_step" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.set_weights">
+<code class="sig-name descname">set_weights</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">weights</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>tensorflow.python.ops.variables.Variable<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.set_weights" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.state">
+<em class="property">property </em><code class="sig-name descname">state</code><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the stateful objects for checkpointing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwLearner.step">
+<code class="sig-name descname">step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwLearner.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Does a step of SGD and logs the results.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ftw-actor">
+<h2><code class="docutils literal notranslate"><span class="pre">FTW</span> <span class="pre">Actor</span></code><a class="headerlink" href="#ftw-actor" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="ftw.agents.tf.ftw.FtwActor">
+<em class="property">class </em><code class="sig-prename descclassname">ftw.agents.tf.ftw.</code><code class="sig-name descname">FtwActor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">sonnet.src.recurrent.RNNCore</span></em>, <em class="sig-param"><span class="n">adder</span><span class="p">:</span> <span class="n">acme.adders.base.Adder</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reward_prediction_adder</span><span class="p">:</span> <span class="n">acme.adders.base.Adder</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variable_client</span><span class="p">:</span> <span class="n">acme.tf.variable_utils.VariableClient</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">uint_pixels_to_float</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwActor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">acme.core.Actor</span></code></p>
+<p>A recurrent actor.</p>
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwActor.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">network</span><span class="p">:</span> <span class="n">sonnet.src.recurrent.RNNCore</span></em>, <em class="sig-param"><span class="n">adder</span><span class="p">:</span> <span class="n">acme.adders.base.Adder</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">reward_prediction_adder</span><span class="p">:</span> <span class="n">acme.adders.base.Adder</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">variable_client</span><span class="p">:</span> <span class="n">acme.tf.variable_utils.VariableClient</span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">uint_pixels_to_float</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwActor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwActor.observe">
+<code class="sig-name descname">observe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">action</span><span class="p">:</span> <span class="n">Any</span></em>, <em class="sig-param"><span class="n">next_timestep</span><span class="p">:</span> <span class="n">dm_env._environment.TimeStep</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwActor.observe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make an observation of timestep data from the environment.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>action: action taken in the environment.
+next_timestep: timestep produced by the environment given the action.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwActor.observe_first">
+<code class="sig-name descname">observe_first</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timestep</span><span class="p">:</span> <span class="n">dm_env._environment.TimeStep</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwActor.observe_first" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a first observation from the environment.</p>
+<p>Note that this need not be an initial state, it is merely beginning the
+recording of a trajectory.</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>timestep: first timestep.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwActor.select_action">
+<code class="sig-name descname">select_action</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">observation</span><span class="p">:</span> <span class="n">Any</span></em><span class="sig-paren">)</span> &#x2192; Any<a class="headerlink" href="#ftw.agents.tf.ftw.FtwActor.select_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Samples from the policy and returns an action.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="ftw.agents.tf.ftw.FtwActor.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.FtwActor.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform an update of the actor parameters from past observations.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-ftw.agents.tf.ftw.utils">
+<span id="utilities-for-replay-buffers-datasets-hyperparameters-internal-rewards"></span><h1>Utilities for Replay Buffers, Datasets, Hyperparameters &amp; Internal Rewards<a class="headerlink" href="#module-ftw.agents.tf.ftw.utils" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="ftw.agents.tf.ftw.utils.create_adders">
+<code class="sig-prename descclassname">ftw.agents.tf.ftw.utils.</code><code class="sig-name descname">create_adders</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">server_address</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">use_pixel_control</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_reward_prediction</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reward_prediction_sequence_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">reward_prediction_sequence_period</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">pad_end_of_episode</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">delta_encoded</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.utils.create_adders" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the reverb adders required by the FTW actor.</p>
+<dl>
+<dt>Args:</dt><dd><p>server_address: Address of the reverb server responsible for storing training data.
+sequence_length: Length of unroll sequences used in training (for calculation of main losses and</p>
+<blockquote>
+<div><p>Pixel control auxiliary loss).</p>
+</div></blockquote>
+<p>use_pixel_control: Whether to create an adder for the Pixel control auxiliary task.
+use_reward_prediction: Whether to create an adder for the Reward prediction auxiliary task.
+reward_prediction_sequence_length: Length of reward prediction sequences.</p>
+<blockquote>
+<div><p>Defaults to 3, as in the FTW and UNREAL agents</p>
+</div></blockquote>
+<dl class="simple">
+<dt>reward_prediction_sequence_period: Period with which to add Reward prediction sequences to the respective</dt><dd><p>replay buffer. Defaults to 1, i.e. at every step, the last reward_prediction_sequence_length steps are
+added to the replay buffer.</p>
+</dd>
+<dt>pad_end_of_episode: Whether to pad sequences with zero-like steps at the the end of an episode, if necessary.</dt><dd><p>Defaults to False.</p>
+</dd>
+<dt>delta_encoded: Whether to use compression for the adder. May lower RAM requirements.</dt><dd><p>See documentation of dm-acme’s adders for more details. Defaults to True.</p>
+</dd>
+</dl>
+</dd>
+<dt>Returns:</dt><dd><p>A tuple (adder, rp_adder), where adder is the main adder and rp_adder is either None
+(if use_reward_prediction=False) or the adder required for the Reward prediction auxiliary task.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.agents.tf.ftw.utils.create_datasets">
+<code class="sig-prename descclassname">ftw.agents.tf.ftw.utils.</code><code class="sig-name descname">create_datasets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">learner_client</span><span class="p">:</span> <span class="n">reverb.tf_client.TFClient</span></em>, <em class="sig-param"><span class="n">environment_spec</span><span class="p">:</span> <span class="n">acme.specs.EnvironmentSpec</span></em>, <em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">sequence_length</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">extra_spec</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_pixel_control</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_reward_prediction</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">reward_prediction_sequence_length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.utils.create_datasets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the dataset(s) required by the FTW agent.</p>
+<dl>
+<dt>Args:</dt><dd><p>learner_client: A reverb.TFClient connected to the reverb server holding the required reverb tables.
+environment_spec: An acme.specs.EnvironmentSpec namedtuple containing the specs of the environment.
+batch_size: Batch size used in training.
+sequence_length: Length of unroll sequences used in training (for calculation of main losses and</p>
+<blockquote>
+<div><p>Pixel control auxiliary loss).</p>
+</div></blockquote>
+<p>extra_spec: A dictionary containing extra specs required for training, such as logits or core state.
+use_pixel_control: Whether to create a dataset for the Pixel control auxiliary task.
+use_reward_prediction: Whether to create a dataset for the Reward prediction auxiliary task.
+reward_prediction_sequence_length: Length of reward prediction sequences.</p>
+<blockquote>
+<div><p>Defaults to 3, as in the FTW and UNREAL agents</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>A 4-element tuple of tf.Dataset objects for each respective task
+(where queue is used in the calculation of the main losses):</p>
+<blockquote>
+<div><p>(queue_dataset, pixel_control_dataset, nonzero_reward_prediction_dataset, zero_reward_prediction_dataset)</p>
+</div></blockquote>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.agents.tf.ftw.utils.create_reverb_tables">
+<code class="sig-prename descclassname">ftw.agents.tf.ftw.utils.</code><code class="sig-name descname">create_reverb_tables</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">batch_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">max_queue_size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">use_pixel_control</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_reward_prediction</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">max_pixel_control_buffer_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">100</span></em>, <em class="sig-param"><span class="n">max_reward_pred_buffer_size</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">800</span></em><span class="sig-paren">)</span><a class="headerlink" href="#ftw.agents.tf.ftw.utils.create_reverb_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the reverb table(s) required by the FTW agent.</p>
+<dl>
+<dt>Args:</dt><dd><p>batch_size: Batch size used in training.
+max_queue_size: Maximum capacity of queue.
+use_pixel_control: Whether to create a table for the Pixel control auxiliary task.
+use_reward_prediction: Whether to create a table for the Reward prediction auxiliary task.
+max_pixel_control_buffer_size: Maximum capacity of Pixel control replay buffer.
+max_reward_pred_buffer_size: Maximum capacity of each Reward prediction replay buffer</p>
+<blockquote>
+<div><p>(one buffer for zero rewards, one for non-zero rewards).</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>A triple (tables, can_sample_queue, can_sample_auxiliary), where
+tables is a list containing all created tables, can_sample_queue is a function that returns a bool
+indicating whether a batch of training data can be sampled from the queue (used in the calculation of the
+main losses), and can_sample_auxiliary is a function that returns a bool indicating whether a batch of
+training data can be sampled from the auxiliary replay buffer(s).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.agents.tf.ftw.utils.initialize_hypers">
+<code class="sig-prename descclassname">ftw.agents.tf.ftw.utils.</code><code class="sig-name descname">initialize_hypers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">slow_core_period_min_max</span><span class="p">:</span> <span class="n">Tuple<span class="p">[</span>int<span class="p">, </span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">5, 20</span></em>, <em class="sig-param"><span class="n">slow_core_period_init_value</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">learning_rate</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">1e-05, 0.005</span></em>, <em class="sig-param"><span class="n">entropy_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0005, 0.01</span></em>, <em class="sig-param"><span class="n">reward_prediction_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em>, <em class="sig-param"><span class="n">pixel_control_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.01, 0.1</span></em>, <em class="sig-param"><span class="n">kld_prior_fixed_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.0001, 0.1</span></em>, <em class="sig-param"><span class="n">kld_prior_posterior_cost</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.001, 1.0</span></em>, <em class="sig-param"><span class="n">scale_grads_fast_to_slow</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em><span class="sig-paren">)</span> &#x2192; Mapping<span class="p">[</span>str<span class="p">, </span><a class="reference internal" href="ftw.tf.hyperparameters.html#ftw.tf.hyperparameters.base.Hyperparameter" title="ftw.tf.hyperparameters.base.Hyperparameter">ftw.tf.hyperparameters.base.Hyperparameter</a><span class="p">]</span><a class="headerlink" href="#ftw.agents.tf.ftw.utils.initialize_hypers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and initialize all hyperparameters required by the FTW agent.</p>
+<p>All arguments can either be supplied as a 2-tuple (min, max), indicating a range to be used in the
+random initialization of the corresponding hyperparameter, or as a scalar value, in which case the corresponding
+hyperparameter will be initialized with this exact value.
+Please note, however, that if a scalar value is used to initialize slow_core_period to an exact value,
+calling perturb() on the resulting hyperparameter will have no effect.</p>
+<dl>
+<dt>Args:</dt><dd><dl class="simple">
+<dt>slow_core_period_min_max: (Inclusive) lower and upper bound for random initialization</dt><dd><p>of the period used for the slow core of the RPTH module.
+See docstring for RPTH module (in ftw.tf.networks.recurrence) for more details.</p>
+</dd>
+<dt>slow_core_period_init_value: Optional. If not None, the period used for the slow core</dt><dd><p>of the RPTH module will be initialized with this exact value, instead of being
+initialized randomly.
+See docstring for RPTH module (in ftw.tf.networks.recurrence) for more details.</p>
+</dd>
+</dl>
+<p>learning_rate: Learning rate used in training.
+entropy_cost: Multiplier for the entropy loss.
+reward_prediction_cost: Multiplier for the Reward prediction loss.
+pixel_control_cost: Multiplier for the Pixel control loss.
+kld_prior_fixed_cost: Multiplier for the Kullback-Leibler divergence loss between</p>
+<blockquote>
+<div><p>a fixed Multivariate Normal Diagonal (MVNDiag) distribution and
+the prior (MVNDiag) distribution as produced by the RPTH module’s slow core.</p>
+</div></blockquote>
+<dl class="simple">
+<dt>kld_prior_posterior_cost: Multiplier for the Kullback-Leibler divergence loss between</dt><dd><p>the prior (MVNDiag) distribution as produced by the RPTH module’s slow core and
+the posterior (MVNDiag) distribution as produced by the RPTH module’s fast core.</p>
+</dd>
+</dl>
+<p>scale_grads_fast_to_slow: Scaling factor for the gradients flowing from fast to slow core of the RPTH module.</p>
+</dd>
+<dt>Returns:</dt><dd><p>A dictionary containing all created hyperparameters.
+Keys of this dictionary correspond to the argument names of this function,
+except for the key ‘slow_core_period’, which results from the argument
+slow_core_period_min_max (and possibly slow_core_init_value).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="ftw.agents.tf.ftw.utils.initialize_internal_rewards">
+<code class="sig-prename descclassname">ftw.agents.tf.ftw.utils.</code><code class="sig-name descname">initialize_internal_rewards</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_events</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">1</span></em>, <em class="sig-param"><span class="n">init_value_or_range</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>float<span class="p">, </span>Tuple<span class="p">[</span>float<span class="p">, </span>float<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">0.1, 1.0</span></em><span class="sig-paren">)</span> &#x2192; ftw.tf.internal_reward.ftw_internal_reward.InternalRewards<a class="headerlink" href="#ftw.agents.tf.ftw.utils.initialize_internal_rewards" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and initializes the internal rewards required by the FTW agent.</p>
+<dl>
+<dt>Args:</dt><dd><p>num_events: Number of events returned by the environment.
+init_value_or_range: A scalar value of type int for initialization with an exact value,</p>
+<blockquote>
+<div><p>or a tuple (min, max), where min, max are of type int for initialization by drawing
+a sample from a log-uniform distribution defined over (min, max).</p>
+</div></blockquote>
+</dd>
+<dt>Returns:</dt><dd><p>An InternalRewards object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="ftw.adders.html" class="btn btn-neutral float-right" title="Reverb Adders" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="ftw.tf.networks.dnc.html" class="btn btn-neutral float-left" title="DNC Memory Modules" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2020, Johannes Tochtermann
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
