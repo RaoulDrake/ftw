@@ -16,12 +16,13 @@
 """Sequence adders.
 
 This implements adders which add sequences or partial trajectories.
+
 This module is almost identical to the original acme.adders.reverb.sequence.py, with one bugfix:
 In the original module, sequences were never padded because the calculation of how many steps need to be padded
 did not work as expected: with an increasing step, the result of this calculation in the original would eventually
 become negative, with the result that padding never happens.
-This edit of the module fixes this bug and always pads with zeros, if enabled.
-The Bugfix can be found in lines 109-117.
+This edit of the module fixes this bug and always pads with zeros, if enabled. The Bugfix can be found in
+[these lines](https://github.com/RaoulDrake/ftw/ftw/adders/reverb/sequence.py#L107-L115).
 """
 
 from typing import Optional
@@ -87,19 +88,17 @@ class SequenceAdder(base.ReverbAdder):
         self._maybe_add_priorities()
 
     def _write_last(self):
-        # Create a final step and a step full of zeros.
+        # Create a final step.
         final_step = utils.final_step_like(self._buffer[0], self._next_observation)
-        zero_step = tree.map_structure(utils.zeros_like, final_step)
 
         # Append the final step.
         self._buffer.append(final_step)
         self._writer.append(final_step)
         self._step += 1
 
-        # NOTE: this always pads to the fixed length. but this is not equivalent to
-        # the old Padded sequence adder.
-
+        # NOTE: this always pads to the fixed length.
         if self._pad_end_of_episode:
+            zero_step = tree.map_structure(utils.zeros_like, final_step)
             # Determine how much padding to add. This makes sure that we add (zero)
             # data until the next time we would write a sequence.
             if self._step <= self._max_sequence_length:
