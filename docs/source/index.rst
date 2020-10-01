@@ -8,7 +8,7 @@ Components
 
    ftw.tf.networks
    ftw.agents.tf.ftw
-   ftw.adders
+   ftw.adders.reverb
    ftw.datasets
    ftw.tf.hyperparameters
    ftw.tf.internal_reward
