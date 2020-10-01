@@ -14,7 +14,7 @@ import os
 import sys
 # sys.path.insert(0, os.path.abspath('.'))
 sys.path.insert(0, os.path.abspath('../..'))
-autodock_mock_imports = ['reverb']
+autodoc_mock_imports = ['reverb']
 
 
 # -- Project information -----------------------------------------------------
