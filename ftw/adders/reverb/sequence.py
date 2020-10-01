@@ -22,7 +22,7 @@ In the original module, sequences were never padded because the calculation of h
 did not work as expected: with an increasing step, the result of this calculation in the original would eventually
 become negative, with the result that padding never happens.
 This edit of the module fixes this bug and always pads with zeros, if enabled.
-The Bugfix can be found in lines 107-115.
+The Bugfix can be found in lines 107-117.
 """
 
 from typing import Optional
@@ -108,7 +108,9 @@ class SequenceAdder(base.ReverbAdder):
                 # However, it does not work as expected: as self._step grows, padding will become
                 # a negative value at some point and as a result, the for loop below will never be
                 # entered because of the negative value passed to range().
+
                 # padding = self._period - (self._step - self._max_sequence_length)
+
                 # The following 3 lines work as expected and always pad to the fixed length (with zeros).
                 padding = 0
                 if (self._step - self._max_sequence_length) % self._period != 0:
